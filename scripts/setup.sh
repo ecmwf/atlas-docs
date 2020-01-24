@@ -94,6 +94,7 @@ eval set -- "$PARAMS"
 command_exists () { type "$1" &> /dev/null ; }
 
 
+
 mkdir -p $ATLAS_DOCS_DIR/downloads
 if [[ ! -d $ATLAS_DOCS_DIR/downloads/atlas ]]; then
     if [[ -d "${_atlas_source}" ]]; then
@@ -156,6 +157,18 @@ fi
 # Activate virtualenv
 echo "[atlas-docs] Activating Python virtualenv in ${_pyenv_path}"
 source ${_pyenv_path}/bin/activate
+
+# Make sure doxygen has required version
+echo "[atlas-docs] Checking doxygen has as suitable version"
+required_doxygen_version=1.8.17
+doxygen_version=$(echo $(doxygen --version) | cut -d' ' -f1)
+doxygen_version_ok=$(python -c "\
+from distutils.version import StrictVersion; \
+print(StrictVersion('${doxygen_version}') >= StrictVersion('${required_doxygen_version}') )")
+if [[ "${doxygen_version_ok}" != "True" ]]; then
+    echo "ERROR: doxygen version \"${required_doxygen_version}\" or greater required (used version \"${doxygen_version}\")"
+    exit 1
+fi
 
 if [[ ${_pyenv_proxy} != false ]] ; then
     _pip_cmd="pip install --proxy ${_pyenv_proxy}"
