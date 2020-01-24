@@ -1,3 +1,5 @@
 atlas_docs_env/
 build/
 downloads/
+pelican/m.css
+pelican/__pycache__
