@@ -110,7 +110,7 @@ doxyfile: build/doxygen/Doxyfile
 	@echo "[atlas-docs] Doxyfile generated: $(CURDIR)/build/doxygen/Doxyfile"
 
 rsync_upload:
-	rsync -avz publish/html/ $(SSH_USER)@$(SSH_HOST):$(SSH_PATH)/
+	rsync -avz build/html/ $(SSH_USER)@$(SSH_HOST):$(SSH_PATH)/
 
 setup: atlas_docs_env/bin/activate
 	@echo "[atlas-docs] Setup finished: Created virtual environment at atlas_docs_env"
