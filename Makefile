@@ -4,7 +4,7 @@ SHELL := /bin/bash
 PY?=python3
 
 PELICAN?=source atlas_docs_env/bin/activate && pelican
-GENERATE_DOXYFILE?=source atlas_docs_env/bin/activate && python scripts/generate_doxygen.py
+GENERATE_DOXYFILE?=source atlas_docs_env/bin/activate && python scripts/generate_doxyfile.py
 DOXYGEN?=source atlas_docs_env/bin/activate && doxygen.py
 
 INPUTDIR=$(CURDIR)/content
