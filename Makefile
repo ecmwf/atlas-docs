@@ -3,9 +3,9 @@ SHELL := /bin/bash
 
 PY?=python3
 
-PELICAN?=source atlas_docs_env/bin/activate && pelican
-GENERATE_DOXYFILE?=source atlas_docs_env/bin/activate && python scripts/generate_doxyfile.py
-DOXYGEN?=source atlas_docs_env/bin/activate && doxygen.py
+PELICAN?=source venv/bin/activate && pelican
+GENERATE_DOXYFILE?=source venv/bin/activate && python scripts/generate_doxyfile.py
+DOXYGEN?=source venv/bin/activate && doxygen.py
 
 INPUTDIR=$(CURDIR)/content
 OUTPUTDIR=$(CURDIR)/build/html
@@ -43,10 +43,13 @@ help:
 	@echo '                                                                          '
 	@echo 'Usage:                                                                    '
 	@echo '   make html                           (re)generate the web site          '
-	@echo '   make clean                          remove the generated files         '
 	@echo '   make serve [PORT=8000]              serve site at http://localhost:8000'
 	@echo '   make devserver [PORT=8000]          serve and regenerate together      '
-	@echo '   make rsync_upload                   upload the web site via rsync+ssh  '
+	@echo '   make rsync-upload                   upload the web site via rsync+ssh  '
+	@echo '   make clean                          remove the generated files         '
+	@echo '   make clean-venv                     remove the venv                    '
+	@echo '   make clean-downloads                remove the downloads               '
+	@echo '   make distclean                      remove downloads, venv, build      '
 	@echo '                                                                          '
 	@echo 'Set the ATLAS_SOURCE_DIR variable to existing path to avoid git download  '
 	@echo 'Set the ECKIT_SOURCE_DIR variable to existing path to avoid git download  '
@@ -72,16 +75,28 @@ build/doxygen/html/index.html: build/doxygen/Doxyfile
 	@echo [atlas-docs] Building Doxygen C++ api generated at build/doxygen/html
 	@$(DOXYGEN) build/doxygen/Doxyfile
 
-build/doxygen/Doxyfile: atlas_docs_env/bin/activate
+build/doxygen/Doxyfile: venv/bin/activate
 	@echo [atlas-docs] Generating Doxyfile \"build/doxygen/Doxyfile\"
 	@$(GENERATE_DOXYFILE) $(GENERATEDOXYOPTS)
 
-atlas_docs_env/bin/activate:
-	@echo Pre-installing required software in virtual environment
+venv/bin/activate:
+	@echo [atlas-docs] Pre-installing required software in virtual environment
 	@scripts/setup.sh --atlas $(ATLAS_SOURCE_DIR) --eckit $(ECKIT_SOURCE_DIR)
 
 clean:
 	[ ! -d build ] || rm -rf build
+	@echo "[atlas-docs] Wiped build"
+
+clean-venv:
+	[ ! -d venv ] || rm -rf venv
+	@echo "[atlas-docs] Wiped venv"
+       
+clean-downloads:
+	[ ! -d downloads ] || rm -rf downloads
+	@echo "[atlas-docs] Wiped downloads"
+
+distclean: clean clean-venv clean-downloads
+	@echo "[atlas-docs] All clean now"
 
 regenerate:
 	$(PELICAN) -r $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
@@ -109,11 +124,11 @@ doxygen: build/doxygen/html/index.html
 doxyfile: build/doxygen/Doxyfile
 	@echo "[atlas-docs] Doxyfile generated: $(CURDIR)/build/doxygen/Doxyfile"
 
-rsync_upload:
+rsync-upload:
 	rsync -avz build/html/ $(SSH_USER)@$(SSH_HOST):$(SSH_PATH)/
 
-setup: atlas_docs_env/bin/activate
-	@echo "[atlas-docs] Setup finished: Created virtual environment at atlas_docs_env"
+setup: venv/bin/activate
+	@echo "[atlas-docs] Setup finished: Created virtual environment at venv"
 
 .PHONY: help regenerate serve serve-global devserver html doxygen setup doxyfile
 

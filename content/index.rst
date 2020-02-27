@@ -28,7 +28,7 @@ Atlas
 
         .. container:: m-col-l-3 m-push-l-2 m-col-m-4 m-push-m-1 m-col-s-6 m-push-s-3 m-col-t-8 m-push-t-2
 
-            .. button-warning:: http://download.ecmwf.int/test-data/atlas/docs/latest/getting-started.html
+            .. button-warning:: {filename}/getting_started/quick_start.rst
                 :class: m-fullwidth
 
                 Dive right in

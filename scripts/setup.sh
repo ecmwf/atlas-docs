@@ -11,7 +11,7 @@ USAGE_HELP="Usage: $(basename $0) [OPTIONS]
 
 Options:
   -p, --python PATH          Python binary to use for virtualenv install
-  -d, --env-dir PATH         Path of the virtualenv to create (default: atlas_docs_env)
+  -d, --env-dir PATH         Path of the virtualenv to create (default: venv)
   --atlas PATH               Path to atlas source repository
   --eckit PATH               Path to eckit source repository
   --version VERSION          Version of atlas git repository
@@ -22,7 +22,7 @@ Options:
 "
 
 _here=$(pwd)
-_pyenv_path="atlas_docs_env"       # Default python environment name
+_pyenv_path="venv"       # Default python environment name
 _pyenv_bin="python3"          # Default python interpreter for the venv
 _pyenv_force=false            # By default don't force the venv installation
 _pyenv_requirements=false     # By default don't install requirements
@@ -171,9 +171,9 @@ if [[ "${doxygen_version_ok}" != "True" ]]; then
 fi
 
 if [[ ${_pyenv_proxy} != false ]] ; then
-    _pip_cmd="pip install --proxy ${_pyenv_proxy}"
+    _pip_cmd="pip --disable-pip-version-check install --proxy ${_pyenv_proxy}"
 else
-    _pip_cmd="pip install"
+    _pip_cmd="pip --disable-pip-version-check install"
 fi
 
 ${_pip_cmd} jinja2 Pygments pelican

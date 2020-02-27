@@ -15,8 +15,8 @@ M_BLOG_URL = 'blog/'
 
 PATH = 'content'
 
-STATIC_URL = 'static/{path}'
-STATIC_SAVE_AS = 'static/{path}'
+STATIC_URL = 'content/{path}'
+STATIC_SAVE_AS = 'content/{path}'
 STATIC_PATHS = ['img', 'showcase']
 EXTRA_PATH_METADATA = {'img/favicon.ico': {'path': '../favicon.ico'}}
 
@@ -75,9 +75,10 @@ M_LINKS_NAVBAR1 = [('Features', 'features/', 'features', [
                         ('Extra Functionality', 'features/extras/', 'features/extras'),
                         ('Plugins & Extensions', 'features/extensions/', 'features/extensions'),
                         ('Community Contributions', 'features/community/', 'features/community')]),
-                   #('Showcase', 'showcase/', 'showcase', []),
+                   ('Getting Started', 'getting_started/', 'getting_started', [
+                        ('Downloading and building', 'getting_started/installation',''),
+                        ('Linking Atlas into your project', 'getting_started/linking','')]),
                    ('Docs', latest_atlas_docs+'/', '', [
-                        ('Getting Started', latest_atlas_docs+'/getting-started.html', ''),
                         ('C++ API', latest_atlas_docs+'/', ''),
                         ('Fortran API [TODO]', '', '')])]
 

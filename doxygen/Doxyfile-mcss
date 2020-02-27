@@ -22,8 +22,9 @@ DOT_IMAGE_FORMAT     = svg
 
 ##! M_SHOW_UNDOCUMENTED = YES 
 
-##! M_LINKS_NAVBAR1 = "getting-started building cmake custom-buildsystems"
-##! M_LINKS_NAVBAR2 = files annotated namespaces 
+##! M_LINKS_NAVBAR1 = ""
+#"getting-started building cmake custom-buildsystems"
+##! M_LINKS_NAVBAR2 = annotated namespaces files
 
 # M_FAVICON = doc/favicon.ico
 
