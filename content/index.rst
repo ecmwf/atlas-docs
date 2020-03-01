@@ -38,9 +38,7 @@ Atlas
 
             .. class:: m-text-center m-text m-warning m-noindent
 
-            | Version `2019.10 <{filename}/blog/announcements/2019.10.rst>`_ with
-              Python
-            | and Basis support now out!
+            | Version 0.20.0 released with ecbuild-3 build system (no longer backwards compatible)!
 
 .. role:: raw-html(raw)
     :format: html
