@@ -22,9 +22,9 @@ DOT_IMAGE_FORMAT     = svg
 
 ##! M_SHOW_UNDOCUMENTED = YES 
 
-##! M_LINKS_NAVBAR1 = ""
+##! M_LINKS_NAVBAR1 = '<a href="https://github.com/ecmwf/atlas/">Browse source</a>'
 #"getting-started building cmake custom-buildsystems"
-##! M_LINKS_NAVBAR2 = annotated namespaces files
+##! M_LINKS_NAVBAR2 = pages annotated namespaces files
 
 # M_FAVICON = doc/favicon.ico
 

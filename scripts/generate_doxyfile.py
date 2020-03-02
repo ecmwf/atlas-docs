@@ -52,15 +52,15 @@ output_dir.mkdir(parents=True, exist_ok=True)
 
 
 doxygen = """
-#INPUT              = {atlas}/doc/pages
-INPUT              = {atlas}/src/atlas
+INPUT              = {atlas}/doc/pages
+INPUT             += {atlas}/src/atlas
 INPUT             += {atlas_aliases}/src/atlas
 
 OUTPUT_DIRECTORY   = {output_dir}
 
 STRIP_FROM_PATH    = {atlas}/src
 STRIP_FROM_PATH   += {atlas_aliases}/src
-#STRIP_FROM_PATH   += {atlas}/doc/pages
+STRIP_FROM_PATH   += {atlas}/doc/pages
 
 PROJECT_NAME       = Atlas
 PROJECT_NUMBER     = {version}
