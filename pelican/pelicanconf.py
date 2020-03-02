@@ -71,10 +71,10 @@ atlas_docs = "//download.ecmwf.int/test-data/atlas/docs"
 latest_atlas_docs = "api/c++"
 enable_blog = False
 
-M_LINKS_NAVBAR1 = [('Features', 'features/', 'features', [
-                        ('Extra Functionality', 'features/extras/', 'features/extras'),
-                        ('Plugins & Extensions', 'features/extensions/', 'features/extensions'),
-                        ('Community Contributions', 'features/community/', 'features/community')]),
+M_LINKS_NAVBAR1 = [('Design', 'design/', 'design', [
+                        ('Object oriented design','design/object_oriented',''),
+                        ('Grid','design/grid',''),
+                        ('Mesh','design/mesh','')] ),
                    ('Getting Started', 'getting_started/', 'getting_started', [
                         ('Downloading and building', 'getting_started/installation',''),
                         ('Linking Atlas into your project', 'getting_started/linking','')]),
@@ -90,17 +90,12 @@ M_LINKS_NAVBAR2 += [ ('GitHub', 'https://github.com/ecmwf/atlas', '', [
                         ('About', 'about/', 'about')]) ]
 
 M_LINKS_FOOTER1 = [('Atlas', 'index.html'),
-                   ('Features', 'features/'),
-                   ('Extra Functionality', 'features/extras/'),
-                   ('Plugins & Extensions', 'features/extensions/'),
-                   ('Community Contributions', 'features/community/'),
-                   ('Showcase', 'showcase/')]
+                   ('Getting started','getting_started'),
+                   ('Design', 'design/')]
 
 M_LINKS_FOOTER2 = [('Docs', latest_atlas_docs+'/'),
-                   ('Getting Started', latest_atlas_docs+'/getting-started.html'),
                    ('C++ API', latest_atlas_docs),
-                   ('Fortran API [TODO]', ''),
-                   ('Older versions', atlas_docs)]
+                   ('Fortran API [TODO]', '')]
 
 M_LINKS_FOOTER3 = [('Contact Us', 'contact/')]
 if enable_blog:
@@ -167,7 +162,7 @@ M_HTMLSANITY_SMART_QUOTES = True
 M_HTMLSANITY_HYPHENATION = True
 M_DOX_TAGFILES = [
 #     ('external/stl.tag', 'https://en.c++reference.com/w/', [], ['m-flat']),
-      ('build/doxygen/atlas.tag', latest_atlas_docs+'/', ['atlas::'], ['m-flat', 'm-text', 'm-strong']),
+      ('build/doxygen/atlas.tag', '/'+latest_atlas_docs+'/', ['atlas::'], ['m-flat', 'm-text', 'm-strong']),
 #     ('content/doc/magnum.tag', 'https://doc.magnum.graphics/magnum/', ['Magnum::'], ['m-flat', 'm-text', 'm-strong'])
 ]
 # M_SPHINX_INVENTORIES = [
@@ -183,9 +178,12 @@ M_METADATA_AUTHOR_PATH = 'blog/authors'
 M_METADATA_CATEGORY_PATH = 'blog/categories'
 M_METADATA_TAG_PATH = 'blog/tags'
 
-if not shutil.which('latex'):
+try_with_latex = True
+if not shutil.which('latex') or not try_with_latex :
     logging.warning("LaTeX not found, fallback to rendering math as code")
     M_MATH_RENDER_AS_CODE = True
+
+
 
 DIRECT_TEMPLATES = ['archives']
 PAGINATED_TEMPLATES = {'archives': None, 'tag': None, 'category': None, 'author': None}

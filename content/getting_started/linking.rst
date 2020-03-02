@@ -47,7 +47,7 @@ Within your own CMake project, then simply add
 
 .. code:: cmake
 
-    find_package( atlas REQUIRED COMPONENS FORTRAN )
+    find_package( atlas REQUIRED )
 
 The ``REQUIRED`` keyword is optional and causes CMake to exit with error if `atlas` was not found.
 
@@ -219,6 +219,51 @@ on the cmake configuration command line.
 
 .. include:: ../project_bundle_atlas/src/hello-atlas_f.F90
   :code: fortran
+  
+Creating a new project with ecbuild
+-----------------------------------
+
+When creating a new project from scratch, please consider to use ``ecbuild``, which is
+also used by atlas. It extends CMake with macros that make the experience easier.
+An example project ``CMakeLists.txt`` file would then be:
+
+.. code:: cmake
+
+    cmake_minimum_required( VERSION 3.12 )
+
+    find_package( ecbuild 3.0 ) # Required before project()
+
+    project( myproject VERSION 1.0.0 LANGUAGES CXX )
+
+    find_package( atlas REQUIRED )
+
+    ecbuild_add_library( TARGET mylib
+        SOURCES
+             src/mylib/myclass1.h
+             src/mylib/myclass1.cc 
+             src/mylib/myclass2.h
+             src/mylib/myclass12.cc
+        PUBLIC_INCLUDES
+             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
+             $<INSTALL_INTERFACE:include>
+        PUBLIC_LIBS        atlas
+        INSTALL_HEADERS    ALL
+        HEADER_DESTINATION include/mylib )
+
+    ecbuild_add_executable( TARGET myexe
+        SOURCES src/programs/myexe.cc
+        LIBS    mylib )
+
+    ecbuild_print_summary()
+    ecbuild_install_project( NAME myproject )
+
+The strange entry ``PUBLIC_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>`` means that
+the directory ``src`` within the project's source dir of ``mylib`` is used as include directory during
+compilation, but also propagated automatically (because ``PUBLIC``) when compiling other
+targets (such as ``myexe`` further) that link with mylib which is not yet installed.
+The ``INSTALL_INTERFACE`` is used when ``myproject`` is installed, and downstream packages
+need to link with ``mylib``. The original source directory may have modified, or not be available any more.
+
 
 Using pkgconfig
 ===============

@@ -334,50 +334,70 @@ can be found within the Atlas install directory. Executing
 
 ::
 
-    >>> export PATH=$atlas_ROOT/bin:$PATH
+    export PATH=$atlas_ROOT/bin:$PATH
 
-    >>> atlas --version
-    0.20.0
+.. code-figure::
 
-    >>> atlas --git
-    c18afe1feba4
-
-    >>> atlas --info
+    ::
     
-    atlas version (0.20.0), git-sha1 c18afe1
+        atlas --version
+    
+    ::
+    
+        0.20.0
+
+.. code-figure::
+
+    ::
+    
+        atlas --git
+
+    ::
+
+        c18afe1feba4
+
+.. code-figure::
+
+    ::
+    
+        atlas --info
+    
+    ::
+
+        atlas version (0.20.0), git-sha1 c18afe1
      
-      Build:
-        build type      : RelWithDebInfo
-        timestamp       : 20200226173051
-        op. system      : Linux-4.4.140-62-default (linux.64)
-        processor       : x86_64
-        c compiler      : GNU 7.3.0
-          flags         :  -pipe -O2 -g -DNDEBUG
-        c++ compiler    : GNU 7.3.0
-          flags         :  -pipe -O2 -g -DNDEBUG
-        fortran compiler: GNU 7.3.0
-          flags         :  -O2 -g -DNDEBUG
+          Build:
+            build type      : RelWithDebInfo
+            timestamp       : 20200226173051
+            op. system      : Linux-4.4.140-62-default (linux.64)
+            processor       : x86_64
+            c compiler      : GNU 7.3.0
+              flags         :  -pipe -O2 -g -DNDEBUG
+            c++ compiler    : GNU 7.3.0
+              flags         :  -pipe -O2 -g -DNDEBUG
+            fortran compiler: GNU 7.3.0
+              flags         :  -O2 -g -DNDEBUG
      
-      Features:
-        Fortran        : ON
-        MPI            : ON
-        OpenMP         : ON
-        BoundsChecking : OFF
-        Init_sNaN      : OFF
-        Trans          : ON
-        FFTW           : ON
-        Eigen          : OFF
-        MKL            : OFF
-        Tesselation    : OFF
-        ArrayDataStore : Native
-        idx_t          : 32 bit integer
-        gidx_t         : 64 bit integer
+          Features:
+            Fortran        : ON
+            MPI            : ON
+            OpenMP         : ON
+            BoundsChecking : OFF
+            Init_sNaN      : OFF
+            Trans          : ON
+            FFTW           : ON
+            Eigen          : OFF
+            MKL            : OFF
+            Tesselation    : OFF
+            ArrayDataStore : Native
+            idx_t          : 32 bit integer
+            gidx_t         : 64 bit integer
      
-      Dependencies: 
-        eckit version (1.4.7),  git-sha1 566091e
-        fckit version (0.6.6),  git-sha1 592f58b
-        transi version (0.7.0), git-sha1 588e46f
-        trans version (transi/contrib - CY46R1), git-sha1 588e46f
+          Dependencies: 
+            eckit version (1.4.7),  git-sha1 566091e
+            fckit version (0.6.6),  git-sha1 592f58b
+            transi version (0.7.0), git-sha1 588e46f
+            trans version (transi/contrib - CY46R1), git-sha1 588e46f
 
 returns information respectively on:
 
