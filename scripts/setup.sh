@@ -177,6 +177,7 @@ else
 fi
 
 ${_pip_cmd} jinja2 Pygments pelican
+${_pip_cmd} sites-toolkit --index-url https://nexus.ecmwf.int/repository/pypi-all/simple
 
 ln -sf ${ATLAS_DOCS_DIR}/downloads/m.css/documentation/doxygen.py ${_pyenv_path}/bin/doxygen.py
 ln -sf ${ATLAS_DOCS_DIR}/downloads/m.css ${_here}/pelican/m.css
