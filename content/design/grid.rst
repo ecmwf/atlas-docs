@@ -1,6 +1,8 @@
 Grid
 ####
 
+:breadcrumb: {filename}/design.rst Design
+
 .. role:: cpp(code)
     :language: cpp
 

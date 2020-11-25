@@ -1,5 +1,8 @@
+
 Object oriented design in C++
 #############################
+
+:breadcrumb: {filename}/design.rst Design
 
 .. role:: cpp(code)
     :language: cpp

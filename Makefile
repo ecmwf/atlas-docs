@@ -6,7 +6,7 @@ PY?=python3
 PELICAN?=source venv/bin/activate && pelican
 GENERATE_DOXYFILE?=source venv/bin/activate && python scripts/generate_doxyfile.py
 DOXYGEN?=source venv/bin/activate && doxygen.py
-
+DOXYGEN_API=c++
 INPUTDIR=$(CURDIR)/content
 OUTPUTDIR=$(CURDIR)/build/html
 CONFFILE=$(CURDIR)/pelican/pelicanconf.py
@@ -24,6 +24,7 @@ WITH_ECKIT ?= 0
 
 PUBLIC ?= 0
 DEBUG ?= 0
+VERSION ?= 0
 
 PELICANOPTS=
 GENERATEDOXYOPTS=
@@ -36,6 +37,9 @@ ifeq ($(DEBUG), 1)
 endif
 ifeq ($(WITH_ECKIT),1)
     GENERATEDOXYOPTS += --with-eckit
+endif
+ifneq ($(VERSION),0)
+    GENERATEDOXYOPTS += --version=$(VERSION)
 endif
 
 help:
@@ -62,14 +66,14 @@ html: build/html/index.html
 	@echo "[atlas-docs] Generated html at $(CURDIR)/build/html"
 	@echo "[atlas-docs] To visualise, execute \"make serve\" and open browser at \"http://localhost:8000\""
 
-build/html/index.html: build/html/api/c++/index.html
+build/html/index.html: build/html/$(DOXYGEN_API)/index.html
 	@echo [atlas-docs] Building Pelican documentation
 	@$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
 
-build/html/api/c++/index.html: build/doxygen/html/index.html
-	@echo [atlas-docs] Copy doxygen generated C++ api to build/html/api/c++
-	@mkdir -p build/html/api
-	@cp -r build/doxygen/html build/html/api/c++
+build/html/$(DOXYGEN_API)/index.html: build/doxygen/html/index.html
+	@echo [atlas-docs] Copy doxygen generated C++ api to build/html/$(DOXYGEN_API)
+	@mkdir -p build/html
+	@cp -r build/doxygen/html build/html/$(DOXYGEN_API)
 
 build/doxygen/html/index.html: build/doxygen/Doxyfile
 	@echo [atlas-docs] Building Doxygen C++ api generated at build/doxygen/html

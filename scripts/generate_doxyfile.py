@@ -22,7 +22,7 @@ args = parser.parse_args()
 
 atlas_project_url = "/"
 if args.public:
-    atlas_project_url = "../../"
+    atlas_project_url = os.getenv("SITEURL", "https://sites.ecmwf.int/docs/atlas")
 
 print("atlas_project_url = ", atlas_project_url)
 atlas = args.atlas
@@ -62,7 +62,7 @@ STRIP_FROM_PATH    = {atlas}/src
 STRIP_FROM_PATH   += {atlas_aliases}/src
 STRIP_FROM_PATH   += {atlas}/doc/pages
 
-PROJECT_NAME       = Atlas
+PROJECT_NAME       = Atlas [{version}]
 PROJECT_NUMBER     = {version}
 PROJECT_BRIEF      = \"C++ docs\"
 

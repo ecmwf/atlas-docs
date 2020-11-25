@@ -26,3 +26,7 @@ are aided by diagrams formulated in the `Unified Modelling Language (UML) <http:
 
 `Mathematical operations » <{filename}/design/mathematical_operations.rst>`_
 ============================================================================
+
+`Plugin architecture » <{filename}/design/plugin_architecture.rst>`_
+====================================================================
+

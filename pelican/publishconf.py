@@ -12,7 +12,8 @@ sys.path.append(os.curdir+"/pelican")
 from pelicanconf import *
 
 # If your site is available via HTTPS, make sure SITEURL begins with https://
-SITEURL = os.getenv("SITEURL", "http://download.ecmwf.int/test-data/atlas/docs/site" )
+#SITEURL = os.getenv("SITEURL", "http://download.ecmwf.int/test-data/atlas/docs/site" )
+SITEURL = os.getenv("SITEURL", "https://sites.ecmwf.int/docs/atlas" )
 
 RELATIVE_URLS = False
 

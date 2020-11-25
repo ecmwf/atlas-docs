@@ -38,5 +38,5 @@ Atlas
 
             .. class:: m-text-center m-text m-warning m-noindent
 
-            | Version 0.20.0 released with ecbuild-3 build system (no longer backwards compatible)!
+            | Version 0.22.0 released with ecbuild-3.4 build system (no longer backwards compatible)!
 

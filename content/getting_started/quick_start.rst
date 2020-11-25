@@ -69,19 +69,26 @@ Please check options, e.g. by calling
 
     sources/atlas/tools/install.sh --help
 
-Optional third party dependencies are automatically detected by CMake.
-If these dependencies are not installed in standard locations,
-or there is a version mismatch, these optional features will be disabled.
-For a more detailed guide on finding the correct dependencies,
-check the `Downloading and building <{filename}/getting_started/installation.rst>`_ page.
-
-In particular, if optional dependencies FFTW, CGAL or GridTools are not already installed,
-they can be installed in the same ``install`` directory with additional arguments:
-
-.. code:: shell
-
-    source/atlas/tools/install.sh --with-deps --enable-fftw --enable-cgal --enable-gridtools
-
+.. block-default:: Optional features
+    
+    Optional third party dependencies are automatically detected by CMake.
+    If these dependencies are not installed in standard locations,
+    or there is a version mismatch, these optional features will be disabled.
+    For a more detailed guide on finding the correct dependencies,
+    check the `Downloading and building <{filename}/getting_started/installation.rst>`_ page.
+    
+    In particular, if optional dependencies FFTW, CGAL or GridTools are not already installed,
+    they can be installed in the same ``install`` directory with additional arguments:
+    
+    .. code:: shell
+    
+        sources/atlas/tools/install.sh --with-deps \
+            --enable-fftw --enable-cgal --enable-gridtools
+    
+    .. note-warning::
+    
+        If you encounter any issues with the extra dependencies, and you don't need them,
+        just continue.without.
 
 .. container:: m-row
 

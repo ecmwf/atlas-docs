@@ -68,13 +68,18 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 atlas_docs = "//download.ecmwf.int/test-data/atlas/docs"
-latest_atlas_docs = "api/c++"
+latest_atlas_docs = "c++"
 enable_blog = False
 
-M_LINKS_NAVBAR1 = [('Design', 'design/', 'design', [
+M_LINKS_NAVBAR1 = [('Tools', 'tools/', 'tools', [
+                        ('atlas-grids','tools/atlas-grids',''),
+                        ('atlas-meshgen','tools/atlas-meshgen',''),
+                        ('atlas-gaussian-latitudes','tools/atlas-gaussian-latitudes','')]),
+                   ('Design', 'design/', 'design', [
                         ('Object oriented design','design/object_oriented',''),
                         ('Grid','design/grid',''),
-                        ('Mesh','design/mesh','')] ),
+                        ('Mesh','design/mesh',''),
+                        ('Plugin architecture','design/plugin_architecture','')]),
                    ('Getting Started', 'getting_started/', 'getting_started', [
                         ('Downloading and building', 'getting_started/installation',''),
                         ('Linking Atlas into your project', 'getting_started/linking','')]),
