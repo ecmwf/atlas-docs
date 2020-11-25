@@ -26,6 +26,8 @@ PUBLIC ?= 0
 DEBUG ?= 0
 VERSION ?= 0
 
+PORT ?= 8000
+
 PELICANOPTS=
 GENERATEDOXYOPTS=
 ifeq ($(PUBLIC), 1)
@@ -88,7 +90,7 @@ venv/bin/activate:
 	@scripts/setup.sh --atlas $(ATLAS_SOURCE_DIR) --eckit $(ECKIT_SOURCE_DIR)
 
 clean:
-	[ ! -d build ] || rm -rf build
+	[ ! -d build ] || rm -rf build m.math.cache
 	@echo "[atlas-docs] Wiped build"
 
 clean-venv:
@@ -106,20 +108,11 @@ regenerate:
 	$(PELICAN) -r $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
 
 serve:
-ifdef PORT
-	@echo "[atlas-docs] Open browser at http://localhost:$(PORT)"
+	@echo "[atlas-docs] Open browser at http://localhost:$(PORT) (CTRL+C to end)"
 	@$(PELICAN) -l $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -p $(PORT) 
-else
-	@echo "[atlas-docs] Open browser at http://localhost:8000   (CTRL+C to end)"
-	@$(PELICAN) -l $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
-endif
 
 devserver:
-ifdef PORT
 	$(PELICAN) -lr $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -p $(PORT)
-else
-	$(PELICAN) -lr $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
-endif
 
 doxygen: build/doxygen/html/index.html
 	@echo "[atlas-docs] Doxygen generated C++ API is created here:"
@@ -127,9 +120,6 @@ doxygen: build/doxygen/html/index.html
 
 doxyfile: build/doxygen/Doxyfile
 	@echo "[atlas-docs] Doxyfile generated: $(CURDIR)/build/doxygen/Doxyfile"
-
-rsync-upload:
-	rsync -avz build/html/ $(SSH_USER)@$(SSH_HOST):$(SSH_PATH)/
 
 setup: venv/bin/activate
 	@echo "[atlas-docs] Setup finished: Created virtual environment at venv"

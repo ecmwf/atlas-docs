@@ -124,7 +124,7 @@ if [[ ! -d $ATLAS_DOCS_DIR/downloads/eckit ]]; then
     fi
 fi
 
-[ -d ${ATLAS_DOCS_DIR}/downloads/m.css ] || git clone https://github.com/mosra/m.css ${ATLAS_DOCS_DIR}/downloads/m.css
+[ -d ${ATLAS_DOCS_DIR}/downloads/m.css ] || git clone -b mathtools https://github.com/wdeconinck/m.css ${ATLAS_DOCS_DIR}/downloads/m.css
 
 
 if ! command_exists ${_pyenv_bin} ; then

@@ -1,6 +1,5 @@
-
-Object oriented design in C++
-#############################
+Object oriented design
+######################
 
 :breadcrumb: {filename}/design.rst Design
 
@@ -15,6 +14,7 @@ Object oriented design in C++
 
 Atlas is primarily written in the C++ programming language. The C++ programming
 language facilitates OO design, and is high performance computing capable.
+
 The latter is due to the support C++ brings for hardware
 specific instructions. In addition, the high compatibility of C++ with C allows
 Atlas to make use of specific programming models such as 
@@ -23,6 +23,9 @@ bindings to create generic Fortran interfaces.
 
 .. contents::
   :class: m-block m-default
+
+Object oriented design in C++
+=============================
 
 Abstract interface (ObjectBase)
 -------------------------------
@@ -158,7 +161,7 @@ It however adds several advantages for the user, and user-code:
         but however a very small performance optimization: no reference counting needs updating in the :cpp:`shared_ptr`.
 
 Object oriented design in Fortran
-#################################
+=================================
 
 With much of the NWP operational software
 written in Fortran, significant effort

@@ -10,11 +10,13 @@ For a wide variety of numerical algorithms, a :dox:`Grid` (i.e. a mere ordering 
 their location) is not sufficient and a :dox:`Mesh` might be required. This is usually obtained
 by connecting grid points using polygonal elements (also referred to as cells),
 such as triangles or quadrilaterals. A mesh, denoted by :math:`\mathcal{M}`, can then be
-defined as a collection of such elements :math:`\Omega_\idx{i}`:
+defined as a collection of such elements :math:`\Omega_\mathrm{i}`:
 
 .. math::
 
-    \mathcal{M} \coloneqq  \cup_{\idx{i}=1}^{N}\ \Omega_\idx{i}
+    \mathcal{M} \coloneqq  \cup_{\mathrm{i}=1}^{N}\ \Omega_\mathrm{i}
+
+.. comment    \mathcal{M} \coloneqq  \cup_{\mathrm{i}=1}^{N}\ \Omega_\mathrm{i}
 
 For regular grids, the mesh elements can be inferred, as a
 blocked arrangement of quadrilaterals. For unstructured grids or reduced grids (\refSection{grid}),
@@ -37,13 +39,13 @@ such as triangles and quadrilaterals, and :dox:`Edges` describes the lines conne
 the nodes of the mesh. \refFigure{mesh-composition} sketches the composition of the
 :dox:`Mesh` class with common access methods for its components. Differently from the
 :dox:`Grid`, the :dox:`Mesh` may be distributed in memory. The physical domain :math:`S` is
-decomposed in sub-domains :math:`S_p` and a corresponding mesh partition :math:`\mathcal{M}_\idx{p}`
+decomposed in sub-domains :math:`S_p` and a corresponding mesh partition :math:`\mathcal{M}_\mathrm{p}`
 is defined as:
 
 .. math::
 
-    \mathcal{M}_{\idx{p}} \coloneqq \{ \cup\ \Omega\ , \hspace{10pt} \forall \hspace{5pt} \Omega\  \in\
-    \mathcal{S}_\idx{p} \}.
+    \mathcal{M}_{\mathrm{p}} := \{ \cup\ \Omega\ , \hspace{10pt} \forall \hspace{5pt} \Omega\  \in\
+    \mathcal{S}_\mathrm{p} \}.
 
 More details regarding this aspect are given in \refSection{parallelisation}.
 
@@ -76,13 +78,13 @@ and \refFigure{mesh-O16} visualises the resulting mesh for grids ``N16`` and ``O
     \begin{minipage}[b]{0.38\linewidth}
     \centering
     \includegraphics[width=\linewidth]{figures/structured-N16-mesh.\ext}\\[10pt]
-    \subcaption{classic Gaussian, \idx{N16}}
+    \subcaption{classic Gaussian, \mathrm{N16}}
     \end{minipage}%
     \hspace{0.05\linewidth}
     \begin{minipage}[b]{0.38\linewidth}
     \centering
     \includegraphics[width=\linewidth]{figures/structured-O16-mesh.\ext}\\[10pt]
-    \subcaption{octahedral Gaussian, \idx{O16} \label{figure:mesh-O16}}
+    \subcaption{octahedral Gaussian, \mathrm{O16} \label{figure:mesh-O16}}
     \end{minipage}
     \caption{\class{Mesh} generated for two types of reduced grids
     (\refFigure{grid-examples})}

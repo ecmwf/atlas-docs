@@ -17,7 +17,7 @@ PATH = 'content'
 
 STATIC_URL = 'content/{path}'
 STATIC_SAVE_AS = 'content/{path}'
-STATIC_PATHS = ['img', 'showcase']
+STATIC_PATHS = ['img']
 EXTRA_PATH_METADATA = {'img/favicon.ico': {'path': '../favicon.ico'}}
 
 ARTICLE_PATHS = ['blog']
@@ -202,3 +202,8 @@ SLUG_REGEX_SUBSTITUTIONS = [
         (r'[-\s]+', '-'),  # reduce multiple whitespace or '-' to single '-'
         (r'C\+\+', 'c++'),
     ]
+
+# Required because otherwise m.css/plugins/ansilexer.py and others are not found within m/code.py
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'm.css/plugins'))
