@@ -72,51 +72,6 @@ Additionally also following CMake :green:`variables` will be defined:
     
         find_package( atlas REQUIRED COMPONENTS FORTRAN )
 
-.. block-danger:: Troubleshooting
-
-    Detection of packages using ``<package>_ROOT`` variables within ``find_package()`` is only available since CMake 3.12,
-    but has become the recommended (standard) behaviour.
-    
-    However, even when using CMake 3.12 or greater, this behaviour is only enabled by default when the CMake project is declared with
-    
-    .. code:: cmake
-    
-        cmake_minimimum_required( VERSION 3.12 )
-
-    When using CMake 3.12 but the minimum required version is lower than 3.12,
-    you can enable the desired behaviour within your project, e.g. by
-    
-    .. code:: cmake
-
-        cmake_minimum_required( VERSION 3.6 )
-        if( POLICY CMP0074 )
-          cmake_policy( SET CMP0074 NEW )
-          # This policy allows to search for packages with <package>_ROOT variables
-          #                        (only supported with CMake 3.12 and above)
-          # This policy can be removed once cmake_minimum_required( VERSION 3.12 ) is used
-        endif()
-
-    When using older CMake versions (prior to version 3.12) you may have to export ``atlas_DIR``
-    in the environment to the directory where a file called ``atlas-config.cmake`` resides.
-    
-    .. code :: bash
-    
-      export atlas_DIR=$atlas_ROOT/lib/cmake/atlas
-    
-    For forward compatibility you can alternatively not define ``atlas_DIR`` but add
-    ``HINTS`` to ``find_package()`` instead:
-    
-    .. code:: cmake
-    
-        find_package( atlas REQUIRED 
-                      HINTS ${atlas_ROOT}
-                            ${atlas_ROOT}/lib/cmake/atlas
-                            $ENV{atlas_ROOT}
-                            $ENV{atlas_ROOT}/lib/cmake/atlas )
-    
-    For the full documentation of ``find_package()`` see the
-    `CMake documentation <https://cmake.org/cmake/help/latest/command/find_package.html>`_.
-
 Bundling Atlas as a subproject
 ``````````````````````````````
 
@@ -202,7 +157,7 @@ or downloaded/added manually/automatically.
 
 The content of the ``CMakeLists.txt`` at the project root contains
 
-.. include:: ../project_bundle_atlas/CMakeLists.txt
+.. include:: project_bundle_atlas/CMakeLists.txt
   :code: cmake
 
 Inspection of this ``CMakeLists.txt`` file shows that for this project we created
@@ -212,12 +167,12 @@ on the cmake configuration command line.
 
 - The content of ``hello_atlas.cc`` is:
 
-.. include:: ../project_bundle_atlas/src/hello-atlas.cc
+.. include:: project_bundle_atlas/src/hello-atlas.cc
   :code: c++
 
 - The content of ``hello_atlas_f.cc`` is:
 
-.. include:: ../project_bundle_atlas/src/hello-atlas_f.F90
+.. include:: project_bundle_atlas/src/hello-atlas_f.F90
   :code: fortran
   
 Creating a new project with ecbuild
@@ -227,35 +182,8 @@ When creating a new project from scratch, please consider to use ``ecbuild``, wh
 also used by atlas. It extends CMake with macros that make the experience easier.
 An example project ``CMakeLists.txt`` file would then be:
 
-.. code:: cmake
-
-    cmake_minimum_required( VERSION 3.12 )
-
-    find_package( ecbuild 3.0 ) # Required before project()
-
-    project( myproject VERSION 1.0.0 LANGUAGES CXX )
-
-    find_package( atlas REQUIRED )
-
-    ecbuild_add_library( TARGET mylib
-        SOURCES
-             src/mylib/myclass1.h
-             src/mylib/myclass1.cc 
-             src/mylib/myclass2.h
-             src/mylib/myclass12.cc
-        PUBLIC_INCLUDES
-             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
-             $<INSTALL_INTERFACE:include>
-        PUBLIC_LIBS        atlas
-        INSTALL_HEADERS    ALL
-        HEADER_DESTINATION include/mylib )
-
-    ecbuild_add_executable( TARGET myexe
-        SOURCES src/programs/myexe.cc
-        LIBS    mylib )
-
-    ecbuild_print_summary()
-    ecbuild_install_project( NAME myproject )
+.. include:: ecbuild_project_atlas/CMakeLists.txt
+  :code: cmake
 
 The strange entry ``PUBLIC_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>`` means that
 the directory ``src`` within the project's source dir of ``mylib`` is used as include directory during
@@ -277,8 +205,9 @@ Given that the variable ``atlas_ROOT`` is present, we can compile the same
 
 .. code:: shell
 
-  ATLAS_INCLUDES=$(pkg-config $atlas_ROOT/lib/pkgconfig/atlas.pc --cflags)
-  ATLAS_LIBS=$(pkg-config $atlas_ROOT/lib/pkgconfig/atlas.pc --libs)
+  export PKG_CONFIG_PATH=$atlas_ROOT/lib64/pkgconfig:$PKG_CONFIG_PATH
+  ATLAS_INCLUDES=$(pkg-config atlas --cflags)
+  ATLAS_LIBS=$(pkg-config atlas --libs)
 
   $CXX hello-atlas.cc -o hello-atlas $ATLAS_INCLUDES $ATLAS_LIBS
 
