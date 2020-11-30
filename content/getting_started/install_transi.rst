@@ -48,7 +48,7 @@ Other environment variables which may help CMake (version greater than 3.12) in 
 
 - ``ecbuild_ROOT``  -- Path to ecbuild install prefix
 - ``MPI_ROOT``      -- Path to MPI install prefix
-- ``MKL_ROOT``      -- Path to Intel MKL install prefix
+- ``MKLROOT``       -- Path to Intel MKL install prefix
 - ``FFTW_ROOT``     -- Path to FFTW install prefix
 
 transi can be configured and installed as follows, to a given ``path-to-install`` as shown below:

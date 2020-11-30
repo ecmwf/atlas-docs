@@ -11,8 +11,7 @@ ecbuild
 What is ecbuild?
 ================
 
-ecbuild is essentially a project that contains a collection of CMake macros that make
-uniformize how CMake projects are built.
+ecbuild is project that contains a collection of CMake macros
 
 Downloading
 ===========

@@ -53,17 +53,10 @@ are pointing to the correct compiler.
 
 Other environment variables which may help CMake (version greater than 3.12) in finding useful dependencies for Atlas:
 
--  ``ecbuild_ROOT``  -- Path to ecbuild install prefix
+- ``ecbuild_ROOT``  -- Path to ecbuild install prefix
 - ``MPI_ROOT``      -- Path to MPI install prefix
-- ``MKL_ROOT``      -- Path to Intel MKL install prefix
+- ``MKLROOT``       -- Path to Intel MKL install prefix
 - ``Eigen3_ROOT``   -- Path to Eigen install prefix
-
-
-.. note-danger::
-
-    We are in the process of porting the eckit build system to a new :label-info:`ecbuild 3` API. When this work is completed,
-    we can rely on CMake to try and automatically detect ecbuild. In the mean time the ``ecbuild_ROOT`` environment variable is 
-    not optional, and is used to manually set CMake's ``CMAKE_MODULE_PATH`` as shown in following instructions.
 
 eckit can be configured and installed as follows, to a given ``path-to-install`` as shown below:
 
@@ -71,8 +64,7 @@ eckit can be configured and installed as follows, to a given ``path-to-install``
 
     cd eckit
     mkdir build && cd build
-    cmake ../ -DCMAKE_MODULE_PATH=$ecbuild_ROOT/share/cmake/ecbuild \
-              -DCMAKE_INSTALL_PREFIX=<path-to-install>
+    cmake ../ -DCMAKE_INSTALL_PREFIX=<path-to-install>
     make install
 
 .. note-danger:: 
