@@ -14,6 +14,7 @@ Requirements for building:
 
 - Python version 3.6 or higher
 - Doxygen version 1.8.17 or higher
+- LaTeX, optional: Recommended for rendering maths
 
 Generate and view documentation
 -------------------------------
@@ -32,12 +33,16 @@ For detailed options, see `make help`
 make serve
 ```
 
-Now open browser at `http://localhost:8000`
+Now open browser at `http://localhost:8000`. Voila.
 
-#### Step 3: Publish website to https://sites.ecmwf.int/docs/atlas
 
-Note, this requires special access credentials, and is only intended for official maintainers.
+Publishing documentation
+------------------------
+
+Following script can be used to publish the website to https://sites.ecmwf.int/docs/atlas.
 
 ```
 scripts/publish.sh
 ```
+
+Note, this requires special access credentials, and is only intended for official maintainers.
