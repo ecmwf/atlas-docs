@@ -13,7 +13,7 @@ if [ -z "${ATLAS_DOCS_TOKEN}" ]; then
     echo
 fi
 
-make PUBLIC=1 WITH_ECKIT=1 clean html
+make PUBLIC=1 WITH_ECKIT=1 WITH_DOXYGEN=1 clean html
 
 source venv/bin/activate
 

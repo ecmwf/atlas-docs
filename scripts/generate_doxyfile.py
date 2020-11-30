@@ -69,7 +69,7 @@ PROJECT_BRIEF      = \"C++ docs\"
 ALIASES           += project_version={version}
 
 DOTFILE_DIRS       = {atlas}/doc/pages
-TAGFILES           = {atlas_docs}/external/stl.tag=http://en.cppreference.com/w/
+TAGFILES           = {atlas_docs}/scripts/doxygen/stl.tag=http://en.cppreference.com/w/
 
 GENERATE_TAGFILE   = {output_dir}/atlas.tag
 
@@ -93,7 +93,7 @@ os.makedirs(output_dir, exist_ok=True)
 with open(output, "w", encoding='utf-8') as file:
 
     for doxyfile_name in ['Doxyfile-default','Doxyfile-custom','Doxyfile-mcss'] :
-        with open(atlas_docs/"doxygen"/doxyfile_name) as doxyfile:
+        with open(atlas_docs/"scripts"/"doxygen"/doxyfile_name) as doxyfile:
             file.write(doxyfile.read())
 
     file.write(doxygen)

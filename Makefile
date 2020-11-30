@@ -1,41 +1,60 @@
-
 SHELL := /bin/bash
 
-PY?=python3
+help:
+	@echo 'Makefile for atlas documentation                                            '
+	@echo '                                                                            '
+	@echo 'Usage:                                                                      '
+	@echo '   make html                           (re)generate the web site            '
+	@echo '   make regenerate                     regenerate the website               '
+	@echo '   make serve [PORT=8000]              serve site at http://localhost:8000  '
+	@echo '   make devserver [PORT=8000]          serve and regenerate together        '
+	@echo '   make clean                          remove build                     '
+	@echo '   make clean-venv                     remove venv                      '
+	@echo '   make clean-downloads                remove downloads                 '
+	@echo '   make distclean                      remove downloads, venv, build        '
+	@echo '                                                                            '
+	@echo 'Set the WITH_DOXYGEN variable to 1/0 to skip Doxygen C++ API                '
+	@echo 'Set the ATLAS_SOURCE_DIR variable to existing path to avoid git download    '
+	@echo 'Set the ECKIT_SOURCE_DIR variable to existing path to avoid git download    '
+	@echo 'Set the WITH_ECKIT variable to 1/0 to add/avoid eckit within Doxygen C++ API'
+	@echo '                                                                            '
 
-PELICAN?=source venv/bin/activate && pelican
-GENERATE_DOXYFILE?=source venv/bin/activate && python scripts/generate_doxyfile.py
-DOXYGEN?=source venv/bin/activate && doxygen.py
-DOXYGEN_API=c++
-INPUTDIR=$(CURDIR)/content
-OUTPUTDIR=$(CURDIR)/build/html
-CONFFILE=$(CURDIR)/pelican/pelicanconf.py
-
-# Public hosting configuration
-SSH_USER?=deploy
-SSH_HOST?=download-int
-SSH_PATH?=/download/data/test-data/atlas/docs/site
+WITH_ECKIT ?= 0
+WITH_DOXYGEN ?= 1
 
 # Source directories for eckit and atlas
 ATLAS_SOURCE_DIR ?= false
 ECKIT_SOURCE_DIR ?= false
 
-WITH_ECKIT ?= 0
 
 PUBLIC ?= 0
 DEBUG ?= 0
 VERSION ?= 0
 
+PY?=python3
+PELICAN?=source venv/bin/activate && pelican
+GENERATE_DOXYFILE?=source venv/bin/activate && python scripts/generate_doxyfile.py
+DOXYGEN?=source venv/bin/activate && doxygen.py
+DOXYGEN_API=c++
+
+INPUTDIR=$(CURDIR)/content
+OUTPUTDIR=$(CURDIR)/build/html
+CONFFILE=$(CURDIR)/scripts/pelican/pelicanconf.py
 PORT ?= 8000
 
 PELICANOPTS=
 GENERATEDOXYOPTS=
+SETUPOPTS=
+
 ifeq ($(PUBLIC), 1)
 	GENERATEDOXYOPTS += --public
-	CONFFILE=$(CURDIR)/pelican/publishconf.py
+	CONFFILE=$(CURDIR)/$(CURDIR)/scripts/pelican/publishconf.py
 endif
 ifeq ($(DEBUG), 1)
 	PELICANOPTS += -D
+endif
+ifeq ($(WITH_DOXYGEN),1)
+    SETUPOPTS += --doxygen
 endif
 ifeq ($(WITH_ECKIT),1)
     GENERATEDOXYOPTS += --with-eckit
@@ -43,26 +62,6 @@ endif
 ifneq ($(VERSION),0)
     GENERATEDOXYOPTS += --version=$(VERSION)
 endif
-
-help:
-	@echo 'Makefile for atlas documentation                                          '
-	@echo '                                                                          '
-	@echo 'Usage:                                                                    '
-	@echo '   make html                           (re)generate the web site          '
-	@echo '   make serve [PORT=8000]              serve site at http://localhost:8000'
-	@echo '   make devserver [PORT=8000]          serve and regenerate together      '
-	@echo '   make rsync-upload                   upload the web site via rsync+ssh  '
-	@echo '   make clean                          remove the generated files         '
-	@echo '   make clean-venv                     remove the venv                    '
-	@echo '   make clean-downloads                remove the downloads               '
-	@echo '   make distclean                      remove downloads, venv, build      '
-	@echo '                                                                          '
-	@echo 'Set the ATLAS_SOURCE_DIR variable to existing path to avoid git download  '
-	@echo 'Set the ECKIT_SOURCE_DIR variable to existing path to avoid git download  '
-	@echo 'Set the WITH_ECKIT variable to 1/0 to add/avoid eckit within C++ API      '
-	@echo '                                                                          '
-	@echo 'Set the PUBLIC variable to 1 before uploading, e.g. make PUBLIC=1 clean html    '
-	@echo '                                                                          '
 
 html: build/html/index.html
 	@echo "[atlas-docs] Generated html at $(CURDIR)/build/html"
@@ -79,7 +78,14 @@ build/html/$(DOXYGEN_API)/index.html: build/doxygen/html/index.html
 
 build/doxygen/html/index.html: build/doxygen/Doxyfile
 	@echo [atlas-docs] Building Doxygen C++ api generated at build/doxygen/html
+	@echo $(WITH_DOXYGEN)
+ifeq ($(WITH_DOXYGEN),1)
 	@$(DOXYGEN) build/doxygen/Doxyfile
+else
+	@mkdir -p build/doxygen/html
+	@touch build/doxygen/html/index.html
+	@touch build/doxygen/atlas.tag
+endif
 
 build/doxygen/Doxyfile: venv/bin/activate
 	@echo [atlas-docs] Generating Doxyfile \"build/doxygen/Doxyfile\"
@@ -87,7 +93,7 @@ build/doxygen/Doxyfile: venv/bin/activate
 
 venv/bin/activate:
 	@echo [atlas-docs] Pre-installing required software in virtual environment
-	@scripts/setup.sh --atlas $(ATLAS_SOURCE_DIR) --eckit $(ECKIT_SOURCE_DIR)
+	@scripts/setup.sh --atlas $(ATLAS_SOURCE_DIR) --eckit $(ECKIT_SOURCE_DIR) $(SETUPOPTS)
 
 clean:
 	[ ! -d build ] || rm -rf build m.math.cache
@@ -124,5 +130,5 @@ doxyfile: build/doxygen/Doxyfile
 setup: venv/bin/activate
 	@echo "[atlas-docs] Setup finished: Created virtual environment at venv"
 
-.PHONY: help regenerate serve serve-global devserver html doxygen setup doxyfile
+.PHONY: help regenerate serve devserver html doxygen setup doxyfile
 

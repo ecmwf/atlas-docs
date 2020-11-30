@@ -12,6 +12,7 @@ USAGE_HELP="Usage: $(basename $0) [OPTIONS]
 Options:
   -p, --python PATH          Python binary to use for virtualenv install
   -d, --env-dir PATH         Path of the virtualenv to create (default: venv)
+  --doxygen                  If not set, atlas-source and eckit-source won't be downloaded
   --atlas PATH               Path to atlas source repository
   --eckit PATH               Path to eckit source repository
   --version VERSION          Version of atlas git repository
@@ -35,6 +36,7 @@ _eckit_source=false
 _eckit_branch="master"
 _atlas_bin=atlas-create    # Command to check if atlas is already installed
 _atlas_https=false         # By default use ssh for git checkout
+_doxygen=false
 
 # TODO: Python2 legacy setup (bootstrap `virtualenv` from pypi)
 
@@ -47,6 +49,9 @@ while (( "$#" )); do
     -d|--env-dir)
         _pyenv_path=$2
         shift 2 ;;
+    --doxygen)
+        _doxygen=true
+        shift 1 ;;
     --atlas)
         _atlas_source=$2
         shift 2 ;;
@@ -93,38 +98,65 @@ eval set -- "$PARAMS"
 
 command_exists () { type "$1" &> /dev/null ; }
 
+# Make sure python has required version
+echo "[atlas-docs] Checking Python has a suitable version"
+required_python_version=3.6
+python_version_ok=$(${_pyenv_bin} -c "import sys; print( sys.version_info[:3] >= tuple(map(int, '${required_python_version}'.split('.'))))")
+if [[ "${python_version_ok}" != "True" ]]; then
+    python_version=$(${_pyenv_bin} -c "import sys; print( '.'.join([str(v) for v in sys.version_info[:3]]) )")
+    echo "ERROR: python version \"${required_python_version}\" or greater required (used version \"${python_version}\")"
+    exit 1
+fi
+
+
+# Make sure doxygen has required version
+if [[ ${_doxygen} == true ]]; then
+    echo "[atlas-docs] Checking Doxygen has a suitable version"
+    required_doxygen_version=1.8.17
+    doxygen_version=$(echo $(doxygen --version) | cut -d' ' -f1)
+    doxygen_version_ok=$(python -c "from distutils.version import StrictVersion; \
+    print(StrictVersion('${doxygen_version}') >= StrictVersion('${required_doxygen_version}') )")
+    if [[ "${doxygen_version_ok}" != "True" ]]; then
+        echo "ERROR: doxygen version \"${required_doxygen_version}\" or greater required (used version \"${doxygen_version}\")"
+        exit 1
+    fi
+fi
+
+
 
 
 mkdir -p $ATLAS_DOCS_DIR/downloads
-if [[ ! -d $ATLAS_DOCS_DIR/downloads/atlas ]]; then
-    if [[ -d "${_atlas_source}" ]]; then
-        _atlas_source="$( cd ${_atlas_source} && pwd )"
-        echo "Use existing atlas sources at ${_atlas_source}"
-        ln -sf ${_atlas_source} $ATLAS_DOCS_DIR/downloads/atlas
-    else
-        if [[ ${_atlas_source} == false ]] ; then
-            # Set default checkout locations
-            _atlas_source="https://github.com/ecmwf/atlas"
-        fi
-        git clone -b ${_atlas_branch} ${_atlas_source} $ATLAS_DOCS_DIR/downloads/atlas
-    fi
-fi
-
-if [[ ! -d $ATLAS_DOCS_DIR/downloads/eckit ]]; then
-    if [[ -d "${_eckit_source}" ]]; then
-        _eckit_source="$( cd ${_eckit_source} && pwd )"
-        echo "Use existing eckit sources at ${_eckit_source}"
-        ln -sf ${_eckit_source} $ATLAS_DOCS_DIR/downloads/eckit
-    else
-        if [[ ${_eckit_source} == false ]] ; then
-            # Set default checkout locations
-            _eckit_source="https://github.com/ecmwf/eckit"
-        fi
-        git clone -b ${_eckit_branch} ${_eckit_source} $ATLAS_DOCS_DIR/downloads/eckit
-    fi
-fi
-
 [ -d ${ATLAS_DOCS_DIR}/downloads/m.css ] || git clone -b mathtools https://github.com/wdeconinck/m.css ${ATLAS_DOCS_DIR}/downloads/m.css
+
+if [[ ${_doxygen} == true ]]; then
+    if [[ ! -d $ATLAS_DOCS_DIR/downloads/atlas ]]; then
+        if [[ -d "${_atlas_source}" ]]; then
+            _atlas_source="$( cd ${_atlas_source} && pwd )"
+            echo "Use existing atlas sources at ${_atlas_source}"
+            ln -sf ${_atlas_source} $ATLAS_DOCS_DIR/downloads/atlas
+        else
+            if [[ ${_atlas_source} == false ]] ; then
+                # Set default checkout locations
+                _atlas_source="https://github.com/ecmwf/atlas"
+            fi
+            git clone -b ${_atlas_branch} ${_atlas_source} $ATLAS_DOCS_DIR/downloads/atlas
+        fi
+    fi
+
+    if [[ ! -d $ATLAS_DOCS_DIR/downloads/eckit ]]; then
+        if [[ -d "${_eckit_source}" ]]; then
+            _eckit_source="$( cd ${_eckit_source} && pwd )"
+            echo "Use existing eckit sources at ${_eckit_source}"
+            ln -sf ${_eckit_source} $ATLAS_DOCS_DIR/downloads/eckit
+        else
+            if [[ ${_eckit_source} == false ]] ; then
+                # Set default checkout locations
+                _eckit_source="https://github.com/ecmwf/eckit"
+            fi
+            git clone -b ${_eckit_branch} ${_eckit_source} $ATLAS_DOCS_DIR/downloads/eckit
+        fi
+    fi
+fi
 
 
 if ! command_exists ${_pyenv_bin} ; then
@@ -142,33 +174,12 @@ if [ ! -d "$_pyenv_path" ]; then
     # Create a new virtualenv from a given python binary
     echo "[atlas-docs] Creating ${_pyenv_bin} virtualenv in ${_pyenv_path}"
 
-    # Make sure python has required version
-    required_python_version=3.6
-    python_version_ok=$(${_pyenv_bin} -c "import sys; print( sys.version_info[:3] >= tuple(map(int, '${required_python_version}'.split('.'))))")
-    if [[ "${python_version_ok}" != "True" ]]; then
-        python_version=$(${_pyenv_bin} -c "import sys; print( '.'.join([str(v) for v in sys.version_info[:3]]) )")
-        echo "ERROR: python version \"${required_python_version}\" or greater required (used version \"${python_version}\")"
-        exit 1
-    fi
-
     ${_pyenv_bin} -m venv ${_pyenv_path}
 fi
 
 # Activate virtualenv
 echo "[atlas-docs] Activating Python virtualenv in ${_pyenv_path}"
 source ${_pyenv_path}/bin/activate
-
-# Make sure doxygen has required version
-echo "[atlas-docs] Checking doxygen has as suitable version"
-required_doxygen_version=1.8.17
-doxygen_version=$(echo $(doxygen --version) | cut -d' ' -f1)
-doxygen_version_ok=$(python -c "\
-from distutils.version import StrictVersion; \
-print(StrictVersion('${doxygen_version}') >= StrictVersion('${required_doxygen_version}') )")
-if [[ "${doxygen_version_ok}" != "True" ]]; then
-    echo "ERROR: doxygen version \"${required_doxygen_version}\" or greater required (used version \"${doxygen_version}\")"
-    exit 1
-fi
 
 if [[ ${_pyenv_proxy} != false ]] ; then
     _pip_cmd="pip --disable-pip-version-check install --proxy ${_pyenv_proxy}"
@@ -180,7 +191,7 @@ ${_pip_cmd} jinja2 Pygments pelican
 ${_pip_cmd} sites-toolkit --index-url https://nexus.ecmwf.int/repository/pypi-all/simple
 
 ln -sf ${ATLAS_DOCS_DIR}/downloads/m.css/documentation/doxygen.py ${_pyenv_path}/bin/doxygen.py
-ln -sf ${ATLAS_DOCS_DIR}/downloads/m.css ${_here}/pelican/m.css
+ln -sf ${ATLAS_DOCS_DIR}/downloads/m.css ${ATLAS_DOCS_DIR}/scripts/pelican/m.css
 
 unset _pyenv_path _pyenv_bin _atlas_source _atlas_branch _atlas_bin
 unset _pyenv_force _pyenv_requirements _pyenv_proxy _atlas_https _pip_cmd USAGE_HELP

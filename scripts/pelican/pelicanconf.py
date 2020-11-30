@@ -1,5 +1,6 @@
 import shutil
 import logging
+import os
 
 AUTHOR = 'Willem Deconinck'
 
@@ -10,15 +11,15 @@ SITENAME = 'Atlas'
 SITESUBTITLE = 'Library for NWP and Climate data structures'
 SITEURL = ''
 
-M_BLOG_NAME = 'Atlas Blog'
-M_BLOG_URL = 'blog/'
+# M_BLOG_NAME = 'Atlas Blog'
+# M_BLOG_URL = 'blog/'
 
 PATH = 'content'
 
 STATIC_URL = 'content/{path}'
 STATIC_SAVE_AS = 'content/{path}'
 STATIC_PATHS = ['img']
-EXTRA_PATH_METADATA = {'img/favicon.ico': {'path': '../favicon.ico'}}
+# EXTRA_PATH_METADATA = {'img/favicon.ico': {'path': '../favicon.ico'}}
 
 ARTICLE_PATHS = ['blog']
 ARTICLE_EXCLUDES = ['blog/authors', 'blog/categories', 'blog/tags']
@@ -30,18 +31,18 @@ READERS = {'html': None} # HTML files are only ever included from reST
 PAGE_URL = '{slug}/'
 PAGE_SAVE_AS = '{slug}/index.html'
 
-ARCHIVES_URL = 'blog/'
-ARCHIVES_SAVE_AS = 'blog/index.html'
-ARTICLE_URL = 'blog/{slug}/' # category/ is part of the slug
-ARTICLE_SAVE_AS = 'blog/{slug}/index.html'
-DRAFT_URL = 'blog/{slug}/' # so the URL is the final one
-DRAFT_SAVE_AS = 'blog/{slug}/index.html'
-AUTHOR_URL = 'blog/author/{slug}/'
-AUTHOR_SAVE_AS = 'blog/author/{slug}/index.html'
-CATEGORY_URL = 'blog/{slug}/'
-CATEGORY_SAVE_AS = 'blog/{slug}/index.html'
-TAG_URL = 'blog/tag/{slug}/'
-TAG_SAVE_AS = 'blog/tag/{slug}/index.html'
+# ARCHIVES_URL = 'blog/'
+# ARCHIVES_SAVE_AS = 'blog/index.html'
+# ARTICLE_URL = 'blog/{slug}/' # category/ is part of the slug
+# ARTICLE_SAVE_AS = 'blog/{slug}/index.html'
+# DRAFT_URL = 'blog/{slug}/' # so the URL is the final one
+# DRAFT_SAVE_AS = 'blog/{slug}/index.html'
+# AUTHOR_URL = 'blog/author/{slug}/'
+# AUTHOR_SAVE_AS = 'blog/author/{slug}/index.html'
+# CATEGORY_URL = 'blog/{slug}/'
+# CATEGORY_SAVE_AS = 'blog/{slug}/index.html'
+# TAG_URL = 'blog/tag/{slug}/'
+# TAG_SAVE_AS = 'blog/tag/{slug}/index.html'
 
 AUTHORS_SAVE_AS = None # Not used
 CATEGORIES_SAVE_AS = None # Not used
@@ -50,7 +51,7 @@ TAGS_SAVE_AS = None # Not used
 PAGINATION_PATTERNS = [(1, '{base_name}/', '{base_name}/index.html'),
                        (2, '{base_name}/{number}/', '{base_name}/{number}/index.html')]
 
-TIMEZONE = 'Europe/Prague'
+TIMEZONE = 'Europe/London'
 
 DEFAULT_LANG = 'en'
 
@@ -67,7 +68,6 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-atlas_docs = "//download.ecmwf.int/test-data/atlas/docs"
 latest_atlas_docs = "c++"
 enable_blog = False
 
@@ -165,11 +165,12 @@ M_SHOW_AUTHOR_LIST = True
 
 M_HTMLSANITY_SMART_QUOTES = True
 M_HTMLSANITY_HYPHENATION = True
-M_DOX_TAGFILES = [
-#     ('external/stl.tag', 'https://en.c++reference.com/w/', [], ['m-flat']),
-      ('build/doxygen/atlas.tag', '/'+latest_atlas_docs+'/', ['atlas::'], ['m-flat', 'm-text', 'm-strong']),
-#     ('content/doc/magnum.tag', 'https://doc.magnum.graphics/magnum/', ['Magnum::'], ['m-flat', 'm-text', 'm-strong'])
-]
+
+if os.environ.get('WITH_DOXYGEN') == '1':
+  M_DOX_TAGFILES = [
+    ('scripts/doxygen/stl.tag', 'https://en.c++reference.com/w/', [], ['m-flat']),
+    ('build/doxygen/atlas.tag', '/'+latest_atlas_docs+'/', ['atlas::'], ['m-flat', 'm-text', 'm-strong']),
+  ]
 # M_SPHINX_INVENTORIES = [
 #     ('external/python.inv', 'https://docs.python.org/3/', [], ['m-flat']),
 #     ('external/numpy.inv', 'https://docs.scipy.org/doc/numpy/', [], ["m-flat"]),

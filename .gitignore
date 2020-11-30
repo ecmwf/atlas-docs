@@ -1,6 +1,6 @@
 build/
 downloads/
-pelican/m.css
-pelican/__pycache__
+scripts/pelican/m.css
+scripts/pelican/__pycache__
 m.math.cache
 venv/
