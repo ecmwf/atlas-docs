@@ -69,7 +69,7 @@ The ``atlas-meshgen`` tool has two options that can be used to "fill" the holes.
 
 Patching the poles
 """"""""""""""""""
-The ``--patch_pole`` option will make the mesh generator connect the points closest to the Pole with triangles that cover the pole as shown below:
+The ``--patch-pole`` option will make the mesh generator connect the points closest to the Pole with triangles that cover the pole as shown below:
 
 .. figure:: {static}/tools/img/mesh3d_patch.png
     :target: {static}/tools/img/mesh3d_patch.png
@@ -77,7 +77,7 @@ The ``--patch_pole`` option will make the mesh generator connect the points clos
 
 Including 1 point at the poles
 """"""""""""""""""""""""""""""
-The ``--include_pole`` option will make the mesh generator add one extra point at the Pole if needed and create triangle elements with the Pole point as vertex as shown below:
+The ``--include-pole`` option will make the mesh generator add one extra point at the Pole if needed and create triangle elements with the Pole point as vertex as shown below:
 
 .. figure:: {static}/tools/img/mesh3d_point.png
     :target: {static}/tools/img/mesh3d_point.png
