@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
@@ -7,8 +7,8 @@ from __future__ import unicode_literals
 
 import os
 import sys
-sys.path.append(os.curdir)
-sys.path.append(os.curdir+"/pelican")
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__))))
+
 from pelicanconf import *
 
 # If your site is available via HTTPS, make sure SITEURL begins with https://

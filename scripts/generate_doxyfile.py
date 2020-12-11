@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import argparse
 from pathlib import Path
@@ -6,8 +6,6 @@ from pathlib import Path
 
 scripts = Path(__file__).parent.resolve()
 atlas_docs = scripts.parent.resolve()
-
-print("atlas_docs = ", atlas_docs)
 
 parser = argparse.ArgumentParser(description='Generate Doxyfile')
 parser.add_argument('--public', action='store_true', help='public version')
@@ -24,11 +22,8 @@ atlas_project_url = "/"
 if args.public:
     atlas_project_url = os.getenv("SITEURL", "https://sites.ecmwf.int/docs/atlas")
 
-print("atlas_project_url = ", atlas_project_url)
 atlas = args.atlas
-print("atlas = ", atlas)
 eckit = args.eckit
-print("eckit = ", eckit)
 version = args.version
 if not version:
     version_file = Path(atlas)/'VERSION'
@@ -38,8 +33,6 @@ if not version:
     else:
         version = "0.0.0"
 
-print("version = ", version)
-
 output = args.output
 if not output:
     output = Path(atlas_docs) / "build/doxygen/Doxyfile"
@@ -47,7 +40,6 @@ else:
     output = Path(output)
 
 output_dir = output.parent
-print("output_dir =", output_dir)
 output_dir.mkdir(parents=True, exist_ok=True)
 
 
@@ -85,8 +77,6 @@ INPUT            += {eckit}/src/eckit
 STRIP_FROM_PATH  += {eckit}/src
 
 """.format(eckit=eckit)
-
-print(doxygen.encode('utf-8'))
 
 os.makedirs(output_dir, exist_ok=True)
 

@@ -9,7 +9,7 @@ M_SITE_LOGO_TEXT = 'Atlas'
 
 SITENAME = 'Atlas'
 SITESUBTITLE = 'Library for NWP and Climate data structures'
-SITEURL = ''
+SITEURL = ''#https://sites.ecmwf.int/docs/atlas'
 
 # M_BLOG_NAME = 'Atlas Blog'
 # M_BLOG_URL = 'blog/'
@@ -184,7 +184,11 @@ M_METADATA_AUTHOR_PATH = 'blog/authors'
 M_METADATA_CATEGORY_PATH = 'blog/categories'
 M_METADATA_TAG_PATH = 'blog/tags'
 
-try_with_latex = True
+if os.environ.get('WITH_LATEX') == '1':
+  try_with_latex = True
+else:
+  try_with_latex = False
+
 if not shutil.which('latex') or not try_with_latex :
     logging.warning("LaTeX not found, fallback to rendering math as code")
     M_MATH_RENDER_AS_CODE = True

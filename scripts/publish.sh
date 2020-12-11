@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -ea
+
 ATLAS_DOCS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 cd ${ATLAS_DOCS_DIR}
 

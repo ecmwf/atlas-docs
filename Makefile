@@ -21,6 +21,7 @@ help:
 
 WITH_ECKIT ?= 0
 WITH_DOXYGEN ?= 1
+WITH_LATEX ?= 1
 
 # Source directories for eckit and atlas
 ATLAS_SOURCE_DIR ?= false
@@ -48,7 +49,7 @@ SETUPOPTS=
 
 ifeq ($(PUBLIC), 1)
 	GENERATEDOXYOPTS += --public
-	CONFFILE=$(CURDIR)/$(CURDIR)/scripts/pelican/publishconf.py
+	CONFFILE=$(CURDIR)/scripts/pelican/publishconf.py
 endif
 ifeq ($(DEBUG), 1)
 	PELICANOPTS += -D
@@ -68,31 +69,31 @@ html: build/html/index.html
 	@echo "[atlas-docs] To visualise, execute \"make serve\" and open browser at \"http://localhost:8000\""
 
 build/html/index.html: build/html/$(DOXYGEN_API)/index.html
-	@echo [atlas-docs] Building Pelican documentation
+	@echo "[atlas-docs] Building Pelican documentation"
 	@$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
 
 build/html/$(DOXYGEN_API)/index.html: build/doxygen/html/index.html
-	@echo [atlas-docs] Copy doxygen generated C++ api to build/html/$(DOXYGEN_API)
+	@echo "[atlas-docs] Copy doxygen generated C++ api to build/html/$(DOXYGEN_API)"
 	@mkdir -p build/html
 	@cp -r build/doxygen/html build/html/$(DOXYGEN_API)
 
 build/doxygen/html/index.html: build/doxygen/Doxyfile
-	@echo [atlas-docs] Building Doxygen C++ api generated at build/doxygen/html
-	@echo $(WITH_DOXYGEN)
 ifeq ($(WITH_DOXYGEN),1)
+	@echo [atlas-docs] Building Doxygen C++ api generated at build/doxygen/html
 	@$(DOXYGEN) build/doxygen/Doxyfile
 else
+	@echo "[atlas-docs] Building dummy Doxygen file (WITH_DOXYGEN=0)"
 	@mkdir -p build/doxygen/html
 	@touch build/doxygen/html/index.html
 	@touch build/doxygen/atlas.tag
 endif
 
 build/doxygen/Doxyfile: venv/bin/activate
-	@echo [atlas-docs] Generating Doxyfile \"build/doxygen/Doxyfile\"
+	@echo "[atlas-docs] Generating Doxyfile \"build/doxygen/Doxyfile\""
 	@$(GENERATE_DOXYFILE) $(GENERATEDOXYOPTS)
 
 venv/bin/activate:
-	@echo [atlas-docs] Pre-installing required software in virtual environment
+	@echo "[atlas-docs] Pre-installing required software in virtual environment"
 	@scripts/setup.sh --atlas $(ATLAS_SOURCE_DIR) --eckit $(ECKIT_SOURCE_DIR) $(SETUPOPTS)
 
 clean:
@@ -118,6 +119,7 @@ serve:
 	@$(PELICAN) -l $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -p $(PORT) 
 
 devserver:
+	@echo "[atlas-docs] Open browser at http://localhost:$(PORT) (CTRL+C to end)"
 	$(PELICAN) -lr $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -p $(PORT)
 
 doxygen: build/doxygen/html/index.html
