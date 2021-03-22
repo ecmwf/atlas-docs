@@ -4,3 +4,4 @@ scripts/pelican/m.css
 scripts/pelican/__pycache__
 m.math.cache
 venv/
+.vscode

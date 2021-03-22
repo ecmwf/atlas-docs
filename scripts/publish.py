@@ -4,7 +4,7 @@
 #
 # To install sites-toolkit:
 #
-#     pip install sites-toolkit --upgrade -index-url https://${user}:${password}@nexus.ecmwf.int/repository/pypi-all/simple
+#     pip install sites-toolkit --upgrade -index-url https://get.ecmwf.int/repository/pypi-all/simple
 
 from sites.toolkit.file_manager import Authenticator, FileManager, Site
 
@@ -14,7 +14,7 @@ from pathlib import Path
 scripts = Path(__file__).parent.resolve()
 atlas_docs = scripts.parent.resolve()
 
-parser = argparse.ArgumentParser(description='Generate Doxyfile')
+parser = argparse.ArgumentParser(description='Publish documentation')
 parser.add_argument('--token', type=str, default="")
 parser.add_argument('--user', type=str, default="")
 parser.add_argument('--password', type=str, default="")
@@ -26,7 +26,7 @@ if args.user and args.password :
     print( "Authentication via user/password" )
     my_authenticator = Authenticator.from_credentials(username=args.user,password=args.password)
 elif args.token :
-    print( "Authentication via token",args.token )
+    print( "Authentication via token" )
     my_authenticator = Authenticator.from_token(token=args.token)
 else :
     print( "ERROR: no token, or user/password was provided" )

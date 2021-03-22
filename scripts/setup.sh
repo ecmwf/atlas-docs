@@ -126,7 +126,7 @@ fi
 
 
 mkdir -p $ATLAS_DOCS_DIR/downloads
-[ -d ${ATLAS_DOCS_DIR}/downloads/m.css ] || git clone -b mathtools https://github.com/wdeconinck/m.css ${ATLAS_DOCS_DIR}/downloads/m.css
+[ -d ${ATLAS_DOCS_DIR}/downloads/m.css ] || git clone -b atlas https://github.com/wdeconinck/m.css ${ATLAS_DOCS_DIR}/downloads/m.css
 
 if [[ ${_doxygen} == true ]]; then
     if [[ ! -d $ATLAS_DOCS_DIR/downloads/atlas ]]; then
@@ -188,7 +188,7 @@ else
 fi
 
 ${_pip_cmd} jinja2 Pygments pelican
-${_pip_cmd} sites-toolkit --index-url https://nexus.ecmwf.int/repository/pypi-all/simple
+${_pip_cmd} sites-toolkit --index-url https://get.ecmwf.int/repository/pypi-all/simple
 
 ln -sf ${ATLAS_DOCS_DIR}/downloads/m.css/documentation/doxygen.py ${_pyenv_path}/bin/doxygen.py
 ln -sf ${ATLAS_DOCS_DIR}/downloads/m.css ${ATLAS_DOCS_DIR}/scripts/pelican/m.css
