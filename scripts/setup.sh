@@ -187,7 +187,7 @@ else
     _pip_cmd="pip --disable-pip-version-check install"
 fi
 
-${_pip_cmd} jinja2 Pygments pelican
+${_pip_cmd} docutils jinja2 Pygments pelican
 ${_pip_cmd} sites-toolkit --index-url https://get.ecmwf.int/repository/pypi-all/simple
 
 ln -sf ${ATLAS_DOCS_DIR}/downloads/m.css/documentation/doxygen.py ${_pyenv_path}/bin/doxygen.py
