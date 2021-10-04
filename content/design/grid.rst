@@ -303,6 +303,8 @@ gives random access to the (``x``, ``y``) coordinates of grid point ``n``. The s
 
 
 
+.. _structuredgrid:
+
 StructuredGrid
 --------------
 

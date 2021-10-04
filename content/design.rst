@@ -15,6 +15,9 @@ are aided by diagrams formulated in the `Unified Modelling Language (UML) <http:
 `Mesh » <{filename}/design/mesh.rst>`_
 =======================================
 
+`Interpolation » <{filename}/design/interpolation.rst>`_
+========================================================
+
 `Parallelisation » <{filename}/design/parallelisation.rst>`_
 ============================================================
 

@@ -79,6 +79,7 @@ M_LINKS_NAVBAR1 = [('Tools', 'tools/', 'tools', [
                         ('Object oriented design','design/object_oriented',''),
                         ('Grid','design/grid',''),
                         ('Mesh','design/mesh',''),
+                        ('Interpolation','design/interpolation',''),
                         ('Plugin architecture','design/plugin_architecture','')]),
                    ('Getting Started', 'getting_started/', 'getting_started', [
                         ('Downloading and building', 'getting_started/installation',''),
