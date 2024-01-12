@@ -38,5 +38,5 @@ Atlas
 
             .. class:: m-text-center m-text m-warning m-noindent
 
-            | Version 0.26.0 released
+            | Version 0.36.0 released
 
