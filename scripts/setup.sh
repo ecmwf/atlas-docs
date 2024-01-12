@@ -114,8 +114,9 @@ if [[ ${_doxygen} == true ]]; then
     echo "[atlas-docs] Checking Doxygen has a suitable version"
     required_doxygen_version=1.8.17
     doxygen_version=$(echo $(doxygen --version) | cut -d' ' -f1)
-    doxygen_version_ok=$(python -c "from distutils.version import StrictVersion; \
+    doxygen_version_ok=$(${_pyenv_bin} -c "from distutils.version import StrictVersion; \
     print(StrictVersion('${doxygen_version}') >= StrictVersion('${required_doxygen_version}') )")
+    echo "doxygen version ok ${doxygen_version_ok}"
     if [[ "${doxygen_version_ok}" != "True" ]]; then
         echo "ERROR: doxygen version \"${required_doxygen_version}\" or greater required (used version \"${doxygen_version}\")"
         exit 1

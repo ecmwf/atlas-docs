@@ -55,7 +55,7 @@ The plugin's `CMakeLists.txt` should then contain following:
 
 .. code:: cmake
 
-    find_package(atlas 0.22.0 REQUIRED)
+    find_package(atlas REQUIRED)
 
     atlas_create_plugin( my-plugin-name )
 

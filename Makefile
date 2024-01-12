@@ -33,7 +33,7 @@ DEBUG ?= 0
 VERSION ?= 0
 
 PY?=python3
-PELICAN?=source venv/bin/activate && pelican
+PELICAN?=source venv/bin/activate && WITH_DOXYGEN=$(WITH_DOXYGEN) WITH_LATEX=$(WITH_LATEX) pelican
 GENERATE_DOXYFILE?=source venv/bin/activate && python scripts/generate_doxyfile.py
 DOXYGEN?=source venv/bin/activate && doxygen.py
 DOXYGEN_API=c++

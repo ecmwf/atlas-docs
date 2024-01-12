@@ -14,7 +14,7 @@ Requirements for building:
 
 - Python version 3.6 or higher
 - Doxygen version 1.8.17 or higher
-- LaTeX, optional: Recommended for rendering maths
+- LaTeX, ghostscript optional: Recommended for rendering maths
 
 Generate and view documentation
 -------------------------------
@@ -46,3 +46,13 @@ scripts/publish.sh
 ```
 
 Note, this requires special access credentials, and is only intended for official maintainers.
+
+Troubleshooting
+---------------
+
+On MacOS, ghostscript needs to be installed as well when using LaTeX, and the LIBGS environment variable needs to be set.
+
+```
+brew install ghostscript
+export LIBGS=${HOMEBREW_PREFIX}/lib/libgs.dylib
+```

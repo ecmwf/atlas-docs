@@ -172,6 +172,9 @@ if os.environ.get('WITH_DOXYGEN') == '1':
     ('scripts/doxygen/stl.tag', 'https://en.c++reference.com/w/', [], ['m-flat']),
     ('build/doxygen/atlas.tag', '/'+latest_atlas_docs+'/', ['atlas::'], ['m-flat', 'm-text', 'm-strong']),
   ]
+else:
+   logging.warning("WITH_DOXYGEN not set or = 0")
+
 # M_SPHINX_INVENTORIES = [
 #     ('external/python.inv', 'https://docs.python.org/3/', [], ['m-flat']),
 #     ('external/numpy.inv', 'https://docs.scipy.org/doc/numpy/', [], ["m-flat"]),
@@ -188,6 +191,7 @@ M_METADATA_TAG_PATH = 'blog/tags'
 if os.environ.get('WITH_LATEX') == '1':
   try_with_latex = True
 else:
+  logging.warning("WITH_LATEX not set or = 0")
   try_with_latex = False
 
 if not shutil.which('latex') or not try_with_latex :
