@@ -1,9 +1,14 @@
 # note: each step is executed in own process
 build-steps:
-  - apt list -a doxygen
-  - sudo apt install -y -q doxygen=1.13.2 texlive-full
+  - |
+    wget https://github.com/doxygen/doxygen/archive/refs/tags/Release_1_13_2.tar.gz
+    tar xzf Release_1_13_2
+    cmake -S doxygen_Release_1_13_2 -B doxygen
+    cmake --build doxygen
+    sudo cmake --install doxygen
+    #  - sudo apt install -y -q doxygen=1.13.2 texlive-full
   - | 
-    make PUBLIC=1 WITH_ECKIT=1 WITH_DOXYGEN=1 html
+    make PUBLIC=0 WITH_ECKIT=1 WITH_DOXYGEN=1 html
     echo "DOC_BUILD_PATH=$GITHUB_WORKSPACE/build/html" >> "$GITHUB_ENV"
 
 hosts:
