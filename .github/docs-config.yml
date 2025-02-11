@@ -3,7 +3,7 @@ build-steps:
   - |
     wget https://github.com/doxygen/doxygen/archive/refs/tags/Release_1_13_2.tar.gz
     tar xzf Release_1_13_2.tar.gz
-    cmake -S doxygen_Release_1_13_2 -B doxygen
+    cmake -S doxygen-Release_1_13_2 -B doxygen
     cmake --build doxygen
     sudo cmake --install doxygen
     #  - sudo apt install -y -q doxygen=1.13.2 texlive-full
