@@ -199,7 +199,15 @@ else:
   logging.warning("WITH_LATEX not set or = 0")
   try_with_latex = False
 
-if not shutil.which('latex') or not try_with_latex :
+if try_with_latex and not shutil.which('gs'):
+    raise RuntimeError(
+        "Ghostscript is not installed (missing 'gs'). "
+        "It is required to process design/grid.rst, design/mesh.rst and "
+        "design/interpolation.rst with WITH_DOXYGEN=1. "
+        "Install Ghostscript or run with WITH_LATEX=0."
+    )
+
+if not shutil.which('latex') or not try_with_latex:
     logging.warning("LaTeX not found, fallback to rendering math as code")
     M_MATH_RENDER_AS_CODE = True
 
