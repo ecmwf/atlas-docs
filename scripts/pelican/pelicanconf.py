@@ -170,8 +170,13 @@ M_HTMLSANITY_HYPHENATION = True
 if os.environ.get('WITH_DOXYGEN') == '1':
   M_DOX_TAGFILES = [
     ('scripts/doxygen/stl.tag', 'https://en.c++reference.com/w/', [], ['m-flat']),
-    ('build/doxygen/atlas.tag', '/'+latest_atlas_docs+'/', ['atlas::'], ['m-flat', 'm-text', 'm-strong']),
   ]
+  # Only include atlas.tag if it exists and is non-empty
+  atlas_tag_path = os.path.join(os.path.dirname(__file__), '../../build/doxygen/atlas.tag')
+  if os.path.isfile(atlas_tag_path) and os.path.getsize(atlas_tag_path) > 0:
+    M_DOX_TAGFILES.append(('build/doxygen/atlas.tag', '/'+latest_atlas_docs+'/', ['atlas::'], ['m-flat', 'm-text', 'm-strong']))
+  else:
+    logging.warning("atlas.tag not found or empty, skipping atlas doxygen integration")
 else:
    logging.warning("WITH_DOXYGEN not set or = 0")
 

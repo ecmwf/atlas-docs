@@ -114,7 +114,7 @@ distclean: clean clean-venv clean-downloads
 regenerate:
 	$(PELICAN) -r $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
 
-serve:
+serve: html
 	@echo "[atlas-docs] Open browser at http://localhost:$(PORT) (CTRL+C to end)"
 	@$(PELICAN) -l $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -p $(PORT) 
 
