@@ -54,5 +54,4 @@ On MacOS, ghostscript needs to be installed as well when using LaTeX, and the LI
 
 ```
 brew install ghostscript
-export LIBGS=${HOMEBREW_PREFIX}/lib/libgs.dylib
 ```
