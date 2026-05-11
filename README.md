@@ -50,9 +50,8 @@ Note, this requires special access credentials, and is only intended for officia
 Troubleshooting
 ---------------
 
-On MacOS, ghostscript needs to be installed as well when using LaTeX, and the LIBGS environment variable needs to be set.
+On MacOS, ghostscript needs to be installed when using LaTeX.
 
 ```
 brew install ghostscript
-export LIBGS=${HOMEBREW_PREFIX}/lib/libgs.dylib
 ```

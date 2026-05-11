@@ -7,6 +7,9 @@ Atlas
 :description: Data structure library for NWP and Climate Modelling
 :summary: Data structure library for NWP and Climate Modelling
 :hide_navbar_brand: True
+
+.. include:: generated/atlas_release_version.rst
+
 :landing:
     .. container:: m-row
 
@@ -38,5 +41,5 @@ Atlas
 
             .. class:: m-text-center m-text m-warning m-noindent
 
-            | Version 0.36.0 released
+            | Version |atlas-release-version| released
 

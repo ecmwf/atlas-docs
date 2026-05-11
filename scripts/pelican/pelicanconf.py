@@ -170,8 +170,13 @@ M_HTMLSANITY_HYPHENATION = True
 if os.environ.get('WITH_DOXYGEN') == '1':
   M_DOX_TAGFILES = [
     ('scripts/doxygen/stl.tag', 'https://en.c++reference.com/w/', [], ['m-flat']),
-    ('build/doxygen/atlas.tag', '/'+latest_atlas_docs+'/', ['atlas::'], ['m-flat', 'm-text', 'm-strong']),
   ]
+  # Only include atlas.tag if it exists and is non-empty
+  atlas_tag_path = os.path.join(os.path.dirname(__file__), '../../build/doxygen/atlas.tag')
+  if os.path.isfile(atlas_tag_path) and os.path.getsize(atlas_tag_path) > 0:
+    M_DOX_TAGFILES.append(('build/doxygen/atlas.tag', '/'+latest_atlas_docs+'/', ['atlas::'], ['m-flat', 'm-text', 'm-strong']))
+  else:
+    logging.warning("atlas.tag not found or empty, skipping atlas doxygen integration")
 else:
    logging.warning("WITH_DOXYGEN not set or = 0")
 
@@ -194,7 +199,14 @@ else:
   logging.warning("WITH_LATEX not set or = 0")
   try_with_latex = False
 
-if not shutil.which('latex') or not try_with_latex :
+if try_with_latex and not shutil.which('gs'):
+  logging.warning(
+    "Ghostscript is not installed (missing 'gs'); falling back to rendering math as code. "
+    "Install Ghostscript to enable SVG math rendering."
+  )
+  M_MATH_RENDER_AS_CODE = True
+
+if not shutil.which('latex') or not try_with_latex:
     logging.warning("LaTeX not found, fallback to rendering math as code")
     M_MATH_RENDER_AS_CODE = True
 

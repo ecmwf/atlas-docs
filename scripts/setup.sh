@@ -98,6 +98,36 @@ eval set -- "$PARAMS"
 
 command_exists () { type "$1" &> /dev/null ; }
 
+detect_libgs () {
+    local detected=""
+
+    # Prefer common locations relative to the Ghostscript executable.
+    if command_exists gs; then
+        local gs_bin
+        gs_bin=$(command -v gs)
+        local gs_prefix
+        gs_prefix=$(cd "$(dirname "${gs_bin}")/.." && pwd)
+        for candidate in \
+            "${gs_prefix}/lib/libgs.dylib" \
+            "${gs_prefix}/lib/libgs.so" \
+            "/opt/homebrew/lib/libgs.dylib" \
+            "/usr/local/lib/libgs.dylib" \
+            "/usr/lib/libgs.so"; do
+            if [[ -f "${candidate}" ]]; then
+                detected="${candidate}"
+                break
+            fi
+        done
+    fi
+
+    # Fallback to loader-based library lookup.
+    if [[ -z "${detected}" ]]; then
+        detected=$(${_pyenv_bin} -c "import ctypes.util; print(ctypes.util.find_library('gs') or '')" 2>/dev/null)
+    fi
+
+    echo "${detected}"
+}
+
 # Make sure python has required version
 echo "[atlas-docs] Checking Python has a suitable version"
 required_python_version=3.6
@@ -114,8 +144,7 @@ if [[ ${_doxygen} == true ]]; then
     echo "[atlas-docs] Checking Doxygen has a suitable version"
     required_doxygen_version=1.8.17
     doxygen_version=$(echo $(doxygen --version) | cut -d' ' -f1)
-    doxygen_version_ok=$(${_pyenv_bin} -c "from distutils.version import StrictVersion; \
-    print(StrictVersion('${doxygen_version}') >= StrictVersion('${required_doxygen_version}') )")
+    doxygen_version_ok=$(${_pyenv_bin} -c "print(tuple(map(int, '${doxygen_version}'.split('.'))) >= tuple(map(int, '${required_doxygen_version}'.split('.'))))")
     echo "doxygen version ok ${doxygen_version_ok}"
     if [[ "${doxygen_version_ok}" != "True" ]]; then
         echo "ERROR: doxygen version \"${required_doxygen_version}\" or greater required (used version \"${doxygen_version}\")"
@@ -182,6 +211,31 @@ fi
 echo "[atlas-docs] Activating Python virtualenv in ${_pyenv_path}"
 source ${_pyenv_path}/bin/activate
 
+# Configure LIBGS for future activations if not explicitly set.
+_libgs_value="${LIBGS}"
+if [[ -z "${_libgs_value}" ]]; then
+    _libgs_value=$(detect_libgs)
+fi
+
+if [[ -n "${_libgs_value}" ]]; then
+    cat > "${_pyenv_path}/bin/atlas-docs-libgs.sh" <<EOF
+export LIBGS="${_libgs_value}"
+EOF
+
+    if ! grep -q "atlas-docs-libgs.sh" "${_pyenv_path}/bin/activate"; then
+        cat >> "${_pyenv_path}/bin/activate" <<'EOF'
+
+# atlas-docs: load LIBGS if configured by setup
+if [[ -f "${VIRTUAL_ENV}/bin/atlas-docs-libgs.sh" ]]; then
+    source "${VIRTUAL_ENV}/bin/atlas-docs-libgs.sh"
+fi
+EOF
+    fi
+    echo "[atlas-docs] Configured LIBGS=${_libgs_value}"
+else
+    echo "[atlas-docs] WARNING: Could not auto-detect LIBGS. Set LIBGS manually if dvisvgm cannot find libgs."
+fi
+
 if [[ ${_pyenv_proxy} != false ]] ; then
     _pip_cmd="pip --disable-pip-version-check install --proxy ${_pyenv_proxy}"
 else
@@ -196,3 +250,4 @@ ln -sf ${ATLAS_DOCS_DIR}/downloads/m.css ${ATLAS_DOCS_DIR}/scripts/pelican/m.css
 
 unset _pyenv_path _pyenv_bin _atlas_source _atlas_branch _atlas_bin
 unset _pyenv_force _pyenv_requirements _pyenv_proxy _atlas_https _pip_cmd USAGE_HELP
+unset _libgs_value

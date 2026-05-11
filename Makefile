@@ -1,22 +1,29 @@
 SHELL := /bin/bash
 
 help:
-	@echo 'Makefile for atlas documentation                                            '
+	@echo 'Makefile for the Atlas documentation                                        '
 	@echo '                                                                            '
 	@echo 'Usage:                                                                      '
+	@echo '                                                                            '
 	@echo '   make html                           (re)generate the web site            '
 	@echo '   make regenerate                     regenerate the website               '
 	@echo '   make serve [PORT=8000]              serve site at http://localhost:8000  '
 	@echo '   make devserver [PORT=8000]          serve and regenerate together        '
-	@echo '   make clean                          remove build                     '
-	@echo '   make clean-venv                     remove venv                      '
-	@echo '   make clean-downloads                remove downloads                 '
+	@echo '   make clean                          remove build                         '
+	@echo '   make clean-venv                     remove venv                          '
+	@echo '   make clean-downloads                remove downloads                     '
 	@echo '   make distclean                      remove downloads, venv, build        '
 	@echo '                                                                            '
-	@echo 'Set the WITH_DOXYGEN variable to 1/0 to skip Doxygen C++ API                '
-	@echo 'Set the ATLAS_SOURCE_DIR variable to existing path to avoid git download    '
-	@echo 'Set the ECKIT_SOURCE_DIR variable to existing path to avoid git download    '
-	@echo 'Set the WITH_ECKIT variable to 1/0 to add/avoid eckit within Doxygen C++ API'
+	@echo 'Global options:                                                             '
+	@echo '                                                                            '
+	@echo 'Set ATLAS_SOURCE_DIR to an existing path to avoid git download              '
+	@echo 'Set ECKIT_SOURCE_DIR to an existing path to avoid git download              '
+	@echo '                                                                            '
+	@echo 'CMake options:                                                              '
+	@echo '                                                                            '
+	@echo 'Set WITH_DOXYGEN to 1/0 to skip Doxygen C++ API                             '
+	@echo 'Set WITH_ECKIT to 1/0 to add/avoid eckit within Doxygen C++ API             '
+	@echo 'Set WITH_LATEX to 1/0 to add/avoid LaTeX within Doxygen C++ API             '
 	@echo '                                                                            '
 
 WITH_ECKIT ?= 0
@@ -68,7 +75,7 @@ html: build/html/index.html
 	@echo "[atlas-docs] Generated html at $(CURDIR)/build/html"
 	@echo "[atlas-docs] To visualise, execute \"make serve\" and open browser at \"http://localhost:8000\""
 
-build/html/index.html: build/html/$(DOXYGEN_API)/index.html
+build/html/index.html: content/generated/atlas_release_version.rst build/html/$(DOXYGEN_API)/index.html
 	@echo "[atlas-docs] Building Pelican documentation"
 	@$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
 
@@ -92,6 +99,16 @@ build/doxygen/Doxyfile: venv/bin/activate
 	@echo "[atlas-docs] Generating Doxyfile \"build/doxygen/Doxyfile\""
 	@$(GENERATE_DOXYFILE) $(GENERATEDOXYOPTS)
 
+content/generated/atlas_release_version.rst:
+	@mkdir -p content/generated
+	@version=$$(curl -fsSL https://api.github.com/repos/ecmwf/atlas/releases/latest | sed -n 's/.*"tag_name":[[:space:]]*"\([^"]*\)".*/\1/p' | head -1); \
+	if [[ -z "$$version" ]]; then \
+		echo "[atlas-docs] ERROR: could not fetch latest Atlas release version from GitHub"; \
+		exit 1; \
+	fi; \
+	printf ".. |atlas-release-version| replace:: %s\n" "$$version" > content/generated/atlas_release_version.rst; \
+	echo "[atlas-docs] Latest Atlas release: $$version"
+
 venv/bin/activate:
 	@echo "[atlas-docs] Pre-installing required software in virtual environment"
 	@scripts/setup.sh --atlas $(ATLAS_SOURCE_DIR) --eckit $(ECKIT_SOURCE_DIR) $(SETUPOPTS)
@@ -111,14 +128,14 @@ clean-downloads:
 distclean: clean clean-venv clean-downloads
 	@echo "[atlas-docs] All clean now"
 
-regenerate:
+regenerate: content/generated/atlas_release_version.rst
 	$(PELICAN) -r $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
 
-serve:
+serve: html
 	@echo "[atlas-docs] Open browser at http://localhost:$(PORT) (CTRL+C to end)"
 	@$(PELICAN) -l $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -p $(PORT) 
 
-devserver:
+devserver: content/generated/atlas_release_version.rst
 	@echo "[atlas-docs] Open browser at http://localhost:$(PORT) (CTRL+C to end)"
 	$(PELICAN) -lr $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -p $(PORT)
 
