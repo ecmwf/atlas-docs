@@ -6,7 +6,14 @@ build-steps:
     cmake -S doxygen-Release_1_13_2 -B doxygen
     cmake --build doxygen -j16
     sudo cmake --install doxygen
-  - sudo apt install -y -q ghostscript texlive-full
+  - |
+    sudo apt-get update
+    sudo apt-get install -y -q \
+      ghostscript \
+      texlive-latex-base \
+      texlive-latex-extra \
+      texlive-fonts-recommended \
+      texlive-font-utils
   - | 
     make PUBLIC=1 WITH_ECKIT=1 WITH_DOXYGEN=1 html
     echo "DOC_BUILD_PATH=$GITHUB_WORKSPACE/build/html" >> "$GITHUB_ENV"
