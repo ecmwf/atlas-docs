@@ -71,11 +71,9 @@ AUTHOR_FEED_RSS = None
 latest_atlas_docs = "c++"
 enable_blog = False
 
-M_LINKS_NAVBAR1 = [ ('Tools', 'tools/', 'tools', [
-                        ('atlas-grids','tools/atlas-grids',''),
-                        ('atlas-meshgen','tools/atlas-meshgen',''),
-                        ('atlas-interpolation','tools/atlas-interpolation',''),
-                        ('atlas-gaussian-latitudes','tools/atlas-gaussian-latitudes','')]),
+M_LINKS_NAVBAR1 = [ ('Getting Started', 'getting_started/', 'getting_started', [
+                        ('Downloading and building', 'getting_started/installation',''),
+                        ('Linking Atlas into your project', 'getting_started/linking','')]),
                     ('Design', 'design/', 'design', [
                         ('Object oriented design','design/object_oriented',''),
                         ('Grid','design/grid',''),
@@ -83,9 +81,11 @@ M_LINKS_NAVBAR1 = [ ('Tools', 'tools/', 'tools', [
                         ('Interpolation','design/interpolation',''),
                         ('Output and visualisation','design/output_and_visualisation',''),
                         ('Plugin architecture','design/plugin_architecture','')]),
-                    ('Getting Started', 'getting_started/', 'getting_started', [
-                        ('Downloading and building', 'getting_started/installation',''),
-                        ('Linking Atlas into your project', 'getting_started/linking','')]),
+                    ('Tools', 'tools/', 'tools', [
+                        ('atlas-grids','tools/atlas-grids',''),
+                        ('atlas-meshgen','tools/atlas-meshgen',''),
+                        ('atlas-interpolation','tools/atlas-interpolation',''),
+                        ('atlas-gaussian-latitudes','tools/atlas-gaussian-latitudes','')]),
                     ('Docs', latest_atlas_docs+'/', '', [
                         ('C++ API', latest_atlas_docs+'/', ''),
                         ('Fortran API [TODO]', '', '')]) ]
