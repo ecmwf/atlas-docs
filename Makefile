@@ -98,7 +98,7 @@ else
 	@touch build/doxygen/atlas.tag
 endif
 
-build/doxygen/Doxyfile: venv/bin/activate
+build/doxygen/Doxyfile: venv/bin/activate scripts/generate_doxyfile.py scripts/doxygen/Doxyfile-default scripts/doxygen/Doxyfile-custom scripts/doxygen/Doxyfile-mcss
 	@echo "[atlas-docs] Generating Doxyfile \"build/doxygen/Doxyfile\""
 	@$(GENERATE_DOXYFILE) $(GENERATEDOXYOPTS)
 
