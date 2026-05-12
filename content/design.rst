@@ -18,6 +18,9 @@ are aided by diagrams formulated in the `Unified Modelling Language (UML) <http:
 `Interpolation » <{filename}/design/interpolation.rst>`_
 ========================================================
 
+`Output and visualisation » <{filename}/design/output_and_visualisation.rst>`_
+===============================================================================
+
 `Parallelisation » <{filename}/design/parallelisation.rst>`_
 ============================================================
 

@@ -6,10 +6,6 @@ atlas-meshgen
 The command-line tool ``atlas-meshgen`` generates a mesh in the `Gmsh 
 <https://gmsh.info>`_ `format <https://gmsh.info/doc/texinfo/gmsh.html#MSH-file-format-version-2-_0028Legacy_0029>`_ given a grid and options.
 
-.. note-warning::
-
-    Gmsh is great to visualize low resolution meshes but becomes sluggish to unresponsive for high resolution meshes.
-    This tool is however invaluable for development and for understanding of how low resolution grids and meshes are constructed.
 
 .. contents::
   :class: m-block m-default
@@ -82,3 +78,11 @@ The ``--include-pole`` option will make the mesh generator add one extra point a
 .. figure:: {static}/tools/img/mesh3d_point.png
     :target: {static}/tools/img/mesh3d_point.png
     :width: 500 px
+
+Before using FESOM and ORCA grids, we need to set environment variables:
+
+.. code-block:: bash
+
+    export ATLAS_ORCA_CACHING=1
+    export ATLAS_FESOM_CACHING=1
+    export ATLAS_CACHE_PATH=/tmp/cache
