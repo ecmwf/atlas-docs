@@ -50,6 +50,9 @@ OUTPUTDIR=$(CURDIR)/build/html
 CONFFILE=$(CURDIR)/scripts/pelican/pelicanconf.py
 PORT ?= 8000
 
+CONTENT_FILES := $(shell find $(INPUTDIR) -type f)
+PELICAN_CONFIG_FILES := $(shell find $(CURDIR)/scripts/pelican -type f)
+
 PELICANOPTS=
 GENERATEDOXYOPTS=
 SETUPOPTS=
@@ -75,7 +78,7 @@ html: build/html/index.html
 	@echo "[atlas-docs] Generated html at $(CURDIR)/build/html"
 	@echo "[atlas-docs] To visualise, execute \"make serve\" and open browser at \"http://localhost:8000\""
 
-build/html/index.html: content/generated/atlas_release_version.rst build/html/$(DOXYGEN_API)/index.html
+build/html/index.html: content/generated/atlas_release_version.rst build/html/$(DOXYGEN_API)/index.html $(CONTENT_FILES) $(PELICAN_CONFIG_FILES)
 	@echo "[atlas-docs] Building Pelican documentation"
 	@$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
 
