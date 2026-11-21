@@ -6,8 +6,6 @@ Grid
 .. role:: cpp(code)
     :language: cpp
 
-.. note-danger:: Under construction!!!
-
 .. contents::
   :class: m-block m-default
 
@@ -169,7 +167,18 @@ Following code snippets shows how to construct any grid from either a configurat
 
 .. block-warning:: Example on construction of grids
 
-    C++ example:
+    .. raw:: html
+
+        <div class="atlas-tabs">
+          <input type="radio" id="grid-code-tab-cpp" name="grid-code-tabs" checked>
+          <input type="radio" id="grid-code-tab-fortran" name="grid-code-tabs">
+          <input type="radio" id="grid-code-tab-python" name="grid-code-tabs">
+          <div class="atlas-tabs__labels">
+            <label for="grid-code-tab-cpp">C++</label>
+            <label for="grid-code-tab-fortran">Fortran</label>
+            <label for="grid-code-tab-python">Python</label>
+          </div>
+          <div class="atlas-tabs__panel atlas-tabs__panel--cpp">
 
     .. code:: cpp
 
@@ -177,12 +186,15 @@ Following code snippets shows how to construct any grid from either a configurat
         Config F16_config;
         F16_config.set( "type", "regular_gaussian" );
         F16_config.set( "N", 16 );
-        
+
         Grid F16( F16_config );   // regular Gaussian grid (F16)
         Grid N16( "N16" );        // classic reduced Gaussian (N16)
 
-    Fortran example:
-    
+    .. raw:: html
+
+          </div>
+          <div class="atlas-tabs__panel atlas-tabs__panel--fortran">
+
     .. code:: fortran
 
         type(atlas_Grid)   :: F16, N16
@@ -194,6 +206,27 @@ Following code snippets shows how to construct any grid from either a configurat
 
         F16 = atlas_Grid( F16_config )  ! regular Gaussian grid (F16)
         N16 = atlas_Grid( "N16" )       ! classic reduced Gaussian grid (N16)
+
+    .. raw:: html
+
+        </div>
+        <div class="atlas-tabs__panel atlas-tabs__panel--python">
+
+    .. code:: python
+
+        import atlas
+
+        f16_config = atlas.Config()
+        f16_config.set("type", "regular_gaussian")
+        f16_config.set("N", 16)
+
+        F16 = atlas.Grid(f16_config)  # regular Gaussian grid (F16)
+        N16 = atlas.Grid("N16")       # classic reduced Gaussian grid (N16)
+
+    .. raw:: html
+
+          </div>
+        </div>
 
     .. note-success::
 

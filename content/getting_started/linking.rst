@@ -165,16 +165,44 @@ a ``BUNDLE`` option to toggle the behaviour of either bundling the dependencies 
 To enable the bundling, the argument ``-DBUNDLE=ON`` needs to be passed
 on the cmake configuration command line.
 
-- The content of ``hello_atlas.cc`` is:
+.. raw:: html
+
+  <div class="atlas-tabs">
+    <input type="radio" id="grid-code-tab-cpp" name="grid-code-tabs" checked>
+    <input type="radio" id="grid-code-tab-fortran" name="grid-code-tabs">
+    <input type="radio" id="grid-code-tab-python" name="grid-code-tabs">
+    <div class="atlas-tabs__labels">
+      <label for="grid-code-tab-cpp">C++</label>
+      <label for="grid-code-tab-fortran">Fortran</label>
+      <label for="grid-code-tab-python">Python</label>
+    </div>
+    <div class="atlas-tabs__panel atlas-tabs__panel--cpp">
 
 .. include:: project_bundle_atlas/src/hello-atlas.cc
   :code: c++
 
-- The content of ``hello_atlas_f.cc`` is:
+.. raw:: html
+
+  </div>
+  <div class="atlas-tabs__panel atlas-tabs__panel--fortran">
 
 .. include:: project_bundle_atlas/src/hello-atlas_f.F90
   :code: fortran
-  
+
+.. raw:: html
+
+  </div>
+  <div class="atlas-tabs__panel atlas-tabs__panel--python">
+
+.. include:: project_bundle_atlas/src/hello-atlas.py
+  :code: python
+
+.. raw:: html
+
+    </div>
+  </div>
+
+
 Creating a new project with ecbuild
 -----------------------------------
 

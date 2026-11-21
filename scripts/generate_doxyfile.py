@@ -44,7 +44,8 @@ output_dir.mkdir(parents=True, exist_ok=True)
 
 
 doxygen = """
-INPUT              = {atlas}/doc/pages
+INPUT              = {atlas}/doc/pages/atlas_environment_variables.md
+INPUT             += {atlas}/doc/pages/developer_information.md
 INPUT             += {atlas}/src/atlas
 INPUT             += {atlas_aliases}/src/atlas
 
