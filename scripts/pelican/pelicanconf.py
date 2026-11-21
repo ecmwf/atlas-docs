@@ -71,22 +71,24 @@ AUTHOR_FEED_RSS = None
 latest_atlas_docs = "c++"
 enable_blog = False
 
-M_LINKS_NAVBAR1 = [('Tools', 'tools/', 'tools', [
-                        ('atlas-grids','tools/atlas-grids',''),
-                        ('atlas-meshgen','tools/atlas-meshgen',''),
-                        ('atlas-gaussian-latitudes','tools/atlas-gaussian-latitudes','')]),
-                   ('Design', 'design/', 'design', [
+M_LINKS_NAVBAR1 = [ ('Getting Started', 'getting_started/', 'getting_started', [
+                        ('Downloading and building', 'getting_started/installation',''),
+                        ('Linking Atlas into your project', 'getting_started/linking','')]),
+                    ('Design', 'design/', 'design', [
                         ('Object oriented design','design/object_oriented',''),
                         ('Grid','design/grid',''),
                         ('Mesh','design/mesh',''),
                         ('Interpolation','design/interpolation',''),
+                        ('Output and visualisation','design/output_and_visualisation',''),
                         ('Plugin architecture','design/plugin_architecture','')]),
-                   ('Getting Started', 'getting_started/', 'getting_started', [
-                        ('Downloading and building', 'getting_started/installation',''),
-                        ('Linking Atlas into your project', 'getting_started/linking','')]),
-                   ('Docs', latest_atlas_docs+'/', '', [
+                    ('Tools', 'tools/', 'tools', [
+                        ('atlas-grids','tools/atlas-grids',''),
+                        ('atlas-meshgen','tools/atlas-meshgen',''),
+                        ('atlas-interpolation','tools/atlas-interpolation',''),
+                        ('atlas-gaussian-latitudes','tools/atlas-gaussian-latitudes','')]),
+                    ('Docs', latest_atlas_docs+'/', '', [
                         ('C++ API', latest_atlas_docs+'/', ''),
-                        ('Fortran API [TODO]', '', '')])]
+                        ('Fortran API [TODO]', '', '')]) ]
 
 M_LINKS_NAVBAR2 = []
 if enable_blog:
@@ -112,7 +114,8 @@ M_LINKS_FOOTER3 += [('GitHub', 'https://github.com/ecmwf/atlas'),
 M_LINKS_FOOTER4 = []#('Ha', 'contact/')]
 
 M_CSS_FILES = ['https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&subset=latin-ext',
-               'static/m-dark.css']
+               'static/m-dark.css',
+               'static/atlas-tabs.css']
 
 M_FINE_PRINT = """
 | Atlas. Copyright © `ECMWF <http://ecmwf.int>`_. Site powered by `Pelican <https://getpelican.com>`_
